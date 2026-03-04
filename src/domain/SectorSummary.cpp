@@ -1,0 +1,1 @@
+#include "domain/SectorSummary.hpp"
