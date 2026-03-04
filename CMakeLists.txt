@@ -10,13 +10,21 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-file(GLOB_RECURSE BACKEND_SOURCES
-  src/*.cpp
-  include/*.hpp
+# -----------------------------
+# Backend sources
+# -----------------------------
+file(GLOB_RECURSE BACKEND_SOURCES CONFIGURE_DEPENDS
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
-add_executable(backend ${BACKEND_SOURCES})
-target_include_directories(backend PRIVATE include)
+add_executable(backend
+  ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+  ${BACKEND_SOURCES}
+)
+
+target_include_directories(backend PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 # -----------------------------
 # Testing (Catch2)
@@ -32,10 +40,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
-file(GLOB_RECURSE TEST_SOURCES tests/*.cpp)
+file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp
+)
 
 add_executable(backend_tests ${TEST_SOURCES})
 target_link_libraries(backend_tests PRIVATE Catch2::Catch2WithMain)
-target_include_directories(backend_tests PRIVATE include)
+target_include_directories(backend_tests PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 add_test(NAME backend_tests COMMAND backend_tests)
