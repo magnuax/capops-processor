@@ -1,6 +1,12 @@
-#pragma once 
+#pragma once
+
+#include <string>
 
 class Sector {
-private: 
-public: 
-}; 
+public:
+    Sector(std::string id, double baseCapacity); 
+
+private:
+    std::string id_;
+    double baseCapacity_;
+};
