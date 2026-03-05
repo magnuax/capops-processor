@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class ProcessorApp {
-private: 
-public: 
-}; 
+class ProcessorApp
+{
+  private:
+  public:
+};

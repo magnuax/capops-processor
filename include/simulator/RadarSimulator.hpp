@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class RadarSimulator {
-private: 
-public: 
-}; 
+class RadarSimulator
+{
+  private:
+  public:
+};

@@ -1,6 +1,7 @@
 #pragma once
 
-struct Position {
+struct Position
+{
     double latDeg{};
     double lonDeg{};
 };

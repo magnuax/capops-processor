@@ -1,6 +1,7 @@
 #include "app/ProcessorApp.hpp"
 
-int main() {
+int main()
+{
     ProcessorApp app;
     // app.run();
 }

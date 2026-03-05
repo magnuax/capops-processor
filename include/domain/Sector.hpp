@@ -2,11 +2,12 @@
 
 #include <string>
 
-class Sector {
-public:
-    Sector(std::string id, double baseCapacity); 
+class Sector
+{
+  public:
+    Sector(std::string id, double baseCapacity);
 
-private:
+  private:
     std::string id_;
     double baseCapacity_;
 };
