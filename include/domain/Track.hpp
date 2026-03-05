@@ -8,13 +8,6 @@ class Track {
 public: 
     Track(std::string icao, std::int64_t timestamp, Position position, double altitude, double velocity, double heading); 
 
-    std::string getIcao(); 
-    std::int64_t getTimestamp();
-    Position getPosition();
-    double getAltitude();
-    double getVelocity();
-    double getHeading();
-    
 private: 
     std::string icao_; 
     std::int64_t timestamp_;
