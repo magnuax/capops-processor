@@ -1,6 +1,7 @@
 #pragma once
 
-enum class WeatherSeverity {
+enum class WeatherSeverity
+{
     OK,
     DEGRADED,
     SEVERE,

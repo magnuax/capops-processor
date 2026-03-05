@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class RedisPublisher {
-private: 
-public: 
-}; 
+class RedisPublisher
+{
+  private:
+  public:
+};

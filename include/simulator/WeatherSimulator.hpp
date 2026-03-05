@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class WeatherSimulator {
-private: 
-public: 
-}; 
+class WeatherSimulator
+{
+  private:
+  public:
+};

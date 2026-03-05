@@ -1,6 +1,7 @@
 #pragma once
 
-class RiskEvent {
-private: 
-public: 
-}; 
+class RiskEvent
+{
+  private:
+  public:
+};

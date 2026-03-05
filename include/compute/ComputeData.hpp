@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class ComputeData {
-private: 
-public: 
-}; 
+class ComputeData
+{
+  private:
+  public:
+};

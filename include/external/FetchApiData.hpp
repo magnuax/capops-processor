@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class FetchApiData {
-private: 
-public: 
-}; 
+class FetchApiData
+{
+  private:
+  public:
+};

@@ -1,6 +1,7 @@
-#pragma once 
+#pragma once
 
-class IngestService {
-private: 
-public: 
-}; 
+class IngestService
+{
+  private:
+  public:
+};
