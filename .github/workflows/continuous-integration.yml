@@ -1,0 +1,52 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Submit reason for running the workflow'
+        required: true
+        default: 'Manual run'
+ 
+jobs:
+  build-and-test:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+      
+      - name: Set up MSVC
+        if: matrix.os == 'windows-latest'
+        uses: ilammy/msvc-dev-cmd@v1
+        
+      - name: Configure CMake
+        run: >
+          cmake -S . -B build
+          -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+      
+      - name: Run tests
+        working-directory: build
+        run: ctest --output-on-failure
