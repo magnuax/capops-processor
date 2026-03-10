@@ -11,7 +11,11 @@
 
 ComputeData::ComputeData()
 {
-    // Initialize sector summaries
+    initializeSectors();
+}
+
+void ComputeData::initializeSectors()
+{
 }
 
 ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
@@ -32,10 +36,10 @@ ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
         int oldSectorId = determineSector(oldTrack.getPosition());
         if (oldSectorId != newSectorId)
         {
-            sectorSummariesById_[oldSectorId].decreaseTrackCount();
+            sectorSummariesById_.at(oldSectorId).decreaseTrackCount();
             evaluateSectorState(oldSectorId, time);
 
-            sectorSummariesById_[newSectorId].increaseTrackCount();
+            sectorSummariesById_.at(newSectorId).increaseTrackCount();
             evaluateSectorState(newSectorId, time);
         }
         currentTrack->second = newTrack;
@@ -44,9 +48,9 @@ ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
     // new track
     else
     {
-        sectorSummariesById_[newSectorId].increaseTrackCount();
+        sectorSummariesById_.at(newSectorId).increaseTrackCount();
         evaluateSectorState(newSectorId, time);
-        activeTracksByIcao_[newTrack.getIcao()] = newTrack;
+        activeTracksByIcao_.insert({newTrack.getIcao(), newTrack});
     }
 
     return result;
@@ -62,7 +66,7 @@ int ComputeData::determineSector(const Position &position)
 
 void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
 {
-    SectorSummary &summary = sectorSummariesById_[sectorId];
+    SectorSummary &summary = sectorSummariesById_.at(sectorId);
 
     SectorState oldState = summary.getState();
 

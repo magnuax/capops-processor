@@ -1,4 +1,5 @@
 #include "app/ProcessorApp.hpp"
+#include "compute/ComputeData.hpp"
 #include "simulator/SimpleTestSimulator.hpp"
 
 #include <variant>
@@ -6,6 +7,7 @@
 void ProcessorApp::run()
 {
     SimpleTestSimulator simulator;
+    ComputeData computeData;
 
     while (simulator.hasNextEvent())
     {

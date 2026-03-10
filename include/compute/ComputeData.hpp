@@ -1,5 +1,6 @@
 #pragma once
 #include "domain/RiskEvent.hpp"
+#include "domain/Sector.hpp"
 #include "domain/SectorSummary.hpp"
 #include "domain/Track.hpp"
 #include "domain/WeatherCell.hpp"
@@ -25,5 +26,8 @@ class ComputeData
     std::unordered_map<std::string, Track> activeTracksByIcao_;
     std::unordered_map<int, WeatherCell> weatherBySectorId_;
     std::unordered_map<int, SectorSummary> sectorSummariesById_;
+    std::unordered_map<int, Sector> sectorsById_;
     std::deque<RiskEvent> riskEvents_;
+
+    void initializeSectors();
 };
