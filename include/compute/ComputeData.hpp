@@ -16,10 +16,10 @@ class ComputeData
     ProcessingResult handleTrackUpdate(const Track &track);
     ProcessingResult handleWeatherUpdate(const WeatherCell &weatherCell);
 
-    //helpers
-    int determineSector(Position &position);
-    void handleRiskEvent(int sectorId, std::int64_t timestamp); 
-    bool isAtRisk(int sectorId); 
+    // helpers
+    int determineSector(const Position &position);
+    void evaluateSectorState(int sectorId, std::int64_t timestamp);
+    bool isAtRisk(int sectorId);
 
   private:
     std::unordered_map<std::string, Track> activeTracksByIcao_;

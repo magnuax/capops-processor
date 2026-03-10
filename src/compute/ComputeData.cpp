@@ -1,76 +1,78 @@
 #include "compute/ComputeData.hpp"
-#inlcude "domain/Track.hpp"
-#include "domain/WeatherCell.hpp"
-#include "domain/SectorSummary.hpp"
 #include "domain/RiskEvent.hpp"
-#include "domain/types/ProcessingResult.hpp"
+#include "domain/SectorSummary.hpp"
+#include "domain/Track.hpp"
+#include "domain/WeatherCell.hpp"
 #include "domain/types/Position.hpp"
+#include "domain/types/ProcessingResult.hpp"
+#include <deque>
+#include <string>
+#include <unordered_map>
 
-
-ComputeData::ComputeData() {
+ComputeData::ComputeData()
+{
     // Initialize sector summaries
-
 }
 
-ProcessingResult ComputeData::handleTrackUpdate(const Track &track)
+ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
 {
-    if (activeTracksByIcao_.find(track.getIcao()) != activeTracksByIcao_.end())
+    ProcessingResult result;
+    int newSectorId = determineSector(newTrack.getPosition());
+    auto currentTrack = activeTracksByIcao_.find(newTrack.getIcao());
+    std::int64_t time = newTrack.getTimestamp();
+
+    // existing track update
+    if (currentTrack != activeTracksByIcao_.end())
     {
-        
-        activeTracksByIcao_[track.getIcao()] = track;
+        const Track &oldTrack = currentTrack->second;
+        if (newTrack.getTimestamp() <= oldTrack.getTimestamp())
+        {
+            return result;
+        }
+        int oldSectorId = determineSector(oldTrack.getPosition());
+        if (oldSectorId != newSectorId)
+        {
+            sectorSummariesById_[oldSectorId].decreaseTrackCount();
+            evaluateSectorState(oldSectorId, time);
+
+            sectorSummariesById_[newSectorId].increaseTrackCount();
+            evaluateSectorState(newSectorId, time);
+        }
+        currentTrack->second = newTrack;
     }
+
+    // new track
     else
     {
-        Position trackPosition = track.getPosition();
-        int sectorId = determineSector(trackPosition);
-        sectorSummariesById_[sectorId].increaseTrackCount();
-        handleRiskEvent(sectorId); 
-
-        }
+        sectorSummariesById_[newSectorId].increaseTrackCount();
+        evaluateSectorState(newSectorId, time);
+        activeTracksByIcao_[newTrack.getIcao()] = newTrack;
     }
 
+    return result;
 }
+
 ProcessingResult ComputeData::handleWeatherUpdate(const WeatherCell &weatherCell)
 {
-    
 }
 
-int ComputeData::determineSector(Position &position)
+int ComputeData::determineSector(const Position &position)
 {
-    
 }
 
-void ComputeData::handleRiskEvent(int sectorId, std::int64_t timestamp)
+void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
 {
-    if(sectorSummariesById_[sectorId].getState() == SectorState::AT_RISK){
-        return; 
-    }
-    else if (isAtRisk(sectorId)){
-        RiskEvent riskEvent(sectorId, timestamp, SectorState::AT_RISK);
+    SectorSummary &summary = sectorSummariesById_[sectorId];
+
+    SectorState oldState = summary.getState();
+
+    summary.updateState();
+
+    SectorState newState = summary.getState();
+
+    if (oldState != newState)
+    {
+        RiskEvent riskEvent(sectorId, timestamp, newState);
         riskEvents_.push_back(riskEvent);
-        return;
     }
-    else{
-        if(isCongested(sectorId)){
-            RiskEvent riskEvent(sectorId, timestamp, SectorState::CONGESTED);
-            riskEvents_.push_back(riskEvent);
-        }
-    }
-}
-
-
-bool ComputeData::isAtRisk(int sectorId){
-    if (sectorSummariesById_[sectorId].getTrackCount() > sectorSummariesById_[sectorId].getEffectiveCapacity() ){
-        sectorSummariesById_[sectorId].updateState(SectorState::AT_RISK); 
-        return true;
-    }
-    return false; 
-}
-
-bool ComputeData::isCongested(int sectorId){
-    if (sectorSummariesById_[sectorId].getTrackCount() > sectorSummariesById_[sectorId].getBaseCapacity() ){
-        sectorSummariesById_[sectorId].updateState(SectorState::CONGESTED); 
-        return true;
-    }
-    return false; 
 }

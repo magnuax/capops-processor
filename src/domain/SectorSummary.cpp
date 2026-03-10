@@ -9,12 +9,12 @@ SectorSummary::SectorSummary(std::string sectorId, std::int64_t timestamp, int t
 {
 }
 
-int SectorSummary::getTrackCount() 
+int SectorSummary::getTrackCount()
 {
     return trackCount_;
 }
 
-double SectorSummary::getBaseCapacity() 
+double SectorSummary::getBaseCapacity()
 {
     return baseCapacity_;
 }
@@ -24,16 +24,53 @@ void SectorSummary::increaseTrackCount()
     trackCount_++;
 }
 
-void SectorSummary::updateState(SectorState newState)
-{
-    state_ = newState;
-}
-
-SectorState SectorSummary::getState() 
+SectorState SectorSummary::getState()
 {
     return state_;
 }
-double SectorSummary::getEffectiveCapacity() 
+double SectorSummary::getEffectiveCapacity()
 {
     return effectiveCapacity_;
+}
+
+void SectorSummary::decreaseTrackCount()
+{
+    if (trackCount_ > 0)
+    {
+        trackCount_--;
+    }
+}
+
+bool SectorSummary::isAtRisk()
+{
+    if (trackCount_ > effectiveCapacity_)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool SectorSummary::isCongested()
+{
+    if (trackCount_ > baseCapacity_)
+    {
+        return true;
+    }
+    return false;
+}
+
+void SectorSummary::updateState()
+{
+    if (isAtRisk())
+    {
+        state_ = SectorState::AT_RISK;
+    }
+    else if (isCongested())
+    {
+        state_ = SectorState::CONGESTED;
+    }
+    else
+    {
+        state_ = SectorState::NORMAL;
+    }
 }

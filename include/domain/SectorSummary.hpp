@@ -12,20 +12,23 @@ class SectorSummary
                   WeatherSeverity weatherSeverity, double weatherFactor, double baseCapacity,
                   double effectiveCapacity, SectorState state);
 
-    //getters
-    int getTrackCount(); 
+    // getters
+    int getTrackCount();
     double getBaseCapacity();
-    SectorState getState(); 
+    SectorState getState();
     double getEffectiveCapacity();
+    bool isAtRisk();
+    bool isCongested();
 
-    //helpers
-    void increaseTrackCount(); 
-    void updateState(SectorState newState); 
+    // helpers
+    void increaseTrackCount();
+    void decreaseTrackCount();
+    void updateState();
 
   private:
     std::string sectorId_;
     std::int64_t timestamp_;
-    int trackCount_ = 0; 
+    int trackCount_ = 0;
     WeatherSeverity weatherSeverity_;
     double weatherFactor_;
     double baseCapacity_;
