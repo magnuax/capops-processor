@@ -1,7 +1,29 @@
 #pragma once
+#include "domain/RiskEvent.hpp"
+#include "domain/SectorSummary.hpp"
+#include "domain/Track.hpp"
+#include "domain/WeatherCell.hpp"
+#include "domain/types/ProcessingResult.hpp"
+#include "domain/types/SectorState.hpp"
+#include <deque>
+#include <string>
+#include <unordered_map>
 
 class ComputeData
 {
-  private:
   public:
+    ComputeData();
+    ProcessingResult handleTrackUpdate(const Track &track);
+    ProcessingResult handleWeatherUpdate(const WeatherCell &weatherCell);
+
+    //helpers
+    int determineSector(Position &position);
+    void handleRiskEvent(int sectorId, std::int64_t timestamp); 
+    bool isAtRisk(int sectorId); 
+
+  private:
+    std::unordered_map<std::string, Track> activeTracksByIcao_;
+    std::unordered_map<int, WeatherCell> weatherBySectorId_;
+    std::unordered_map<int, SectorSummary> sectorSummariesById_;
+    std::deque<RiskEvent> riskEvents_;
 };

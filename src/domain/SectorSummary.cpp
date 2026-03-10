@@ -8,3 +8,32 @@ SectorSummary::SectorSummary(std::string sectorId, std::int64_t timestamp, int t
       effectiveCapacity_(effectiveCapacity), state_(state)
 {
 }
+
+int SectorSummary::getTrackCount() 
+{
+    return trackCount_;
+}
+
+double SectorSummary::getBaseCapacity() 
+{
+    return baseCapacity_;
+}
+
+void SectorSummary::increaseTrackCount()
+{
+    trackCount_++;
+}
+
+void SectorSummary::updateState(SectorState newState)
+{
+    state_ = newState;
+}
+
+SectorState SectorSummary::getState() 
+{
+    return state_;
+}
+double SectorSummary::getEffectiveCapacity() 
+{
+    return effectiveCapacity_;
+}
