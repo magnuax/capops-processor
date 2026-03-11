@@ -9,7 +9,8 @@
 #include <string>
 #include <unordered_map>
 
-ComputeData::ComputeData()
+ComputeData::ComputeData(Configuration configuration): 
+config(configuration)
 {
     initializeSectors();
 }
@@ -18,7 +19,7 @@ void ComputeData::initializeSectors()
 {
 }
 
-ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
+void ComputeData::handleTrackUpdate(const Track &newTrack)
 {
     ProcessingResult result;
     int newSectorId = determineSector(newTrack.getPosition());
@@ -31,7 +32,7 @@ ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
         const Track &oldTrack = currentTrack->second;
         if (newTrack.getTimestamp() <= oldTrack.getTimestamp())
         {
-            return result;
+            return;
         }
         int oldSectorId = determineSector(oldTrack.getPosition());
         if (oldSectorId != newSectorId)
@@ -53,10 +54,9 @@ ProcessingResult ComputeData::handleTrackUpdate(const Track &newTrack)
         activeTracksByIcao_.insert({newTrack.getIcao(), newTrack});
     }
 
-    return result;
 }
 
-ProcessingResult ComputeData::handleWeatherUpdate(const WeatherCell &weatherCell)
+void ComputeData::handleWeatherUpdate(const WeatherCell &weatherCell)
 {
 }
 

@@ -9,13 +9,14 @@
 #include <deque>
 #include <string>
 #include <unordered_map>
+#include "config/Config.hpp"
 
 class ComputeData
 {
   public:
-    ComputeData();
-    ProcessingResult handleTrackUpdate(const Track &track);
-    ProcessingResult handleWeatherUpdate(const WeatherCell &weatherCell);
+    ComputeData(Configuration config);
+    void handleTrackUpdate(const Track &track);
+    void handleWeatherUpdate(const WeatherCell &weatherCell);
 
     // helpers
     int determineSector(const Position &position);
@@ -28,6 +29,8 @@ class ComputeData
     std::unordered_map<int, SectorSummary> sectorSummariesById_;
     std::unordered_map<int, Sector> sectorsById_;
     std::deque<RiskEvent> riskEvents_;
+    ProcessingResult result; 
+    Configuration config; 
 
     void initializeSectors();
 };
