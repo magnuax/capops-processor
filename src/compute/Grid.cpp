@@ -1,4 +1,5 @@
 #include "compute/Grid.hpp"
+#include <stdexcept>
 
 Grid::Grid(const GridConfig& config)
     : config_(config)
