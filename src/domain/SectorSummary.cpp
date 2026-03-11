@@ -74,3 +74,7 @@ void SectorSummary::updateState()
         state_ = SectorState::NORMAL;
     }
 }
+
+void SectorSummary::updateTime(std::int64_t timestamp){
+  timestamp_ = timestamp; 
+}

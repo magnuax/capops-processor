@@ -9,20 +9,35 @@
 #include <string>
 #include <unordered_map>
 
-ComputeData::ComputeData(Configuration configuration): 
-config(configuration)
+
+ComputeData::ComputeData(const Configuration& configuration)
+    : grid_(configuration.grid()),
+      defaultBaseCapacity_(configuration.defaultBaseCapacity())
 {
     initializeSectors();
 }
 
 void ComputeData::initializeSectors()
 {
+    for (int sectorId = 0; sectorId < grid_.sectorCount(); ++sectorId) {
+        sectorSummariesById_.emplace(
+            sectorId,
+            SectorSummary(
+                sectorId,
+                0,                      // timestamp
+                0,                      // trackCount
+                WeatherSeverity::OK,
+                1.0,                    // weatherFactor
+                defaultBaseCapacity_,
+                defaultBaseCapacity_,   // effectiveCapacity
+                SectorState::NORMAL));
+    }
 }
 
 void ComputeData::handleTrackUpdate(const Track &newTrack)
 {
     ProcessingResult result;
-    int newSectorId = determineSector(newTrack.getPosition());
+    int newSectorId = grid_.determineSector(newTrack.getPosition());
     auto currentTrack = activeTracksByIcao_.find(newTrack.getIcao());
     std::int64_t time = newTrack.getTimestamp();
 
@@ -34,7 +49,7 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
         {
             return;
         }
-        int oldSectorId = determineSector(oldTrack.getPosition());
+        int oldSectorId = grid_.determineSector(oldTrack.getPosition());
         if (oldSectorId != newSectorId)
         {
             sectorSummariesById_.at(oldSectorId).decreaseTrackCount();
@@ -53,16 +68,12 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
         evaluateSectorState(newSectorId, time);
         activeTracksByIcao_.insert({newTrack.getIcao(), newTrack});
     }
-
 }
 
 void ComputeData::handleWeatherUpdate(const WeatherCell &weatherCell)
 {
 }
 
-int ComputeData::determineSector(const Position &position)
-{
-}
 
 void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
 {
@@ -71,6 +82,8 @@ void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
     SectorState oldState = summary.getState();
 
     summary.updateState();
+
+    summary.updateTime(timestamp); 
 
     SectorState newState = summary.getState();
 

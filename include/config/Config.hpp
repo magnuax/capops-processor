@@ -16,15 +16,15 @@ struct GridConfig
 
 class Configuration
 {
-public:
-    explicit Configuration(const std::string& path);
+  public:
+    explicit Configuration(const std::string &path);
 
-    const GridConfig& grid() const;
+    const GridConfig &grid() const;
     double defaultBaseCapacity() const;
     double weatherFactor(WeatherSeverity severity) const;
-    void load(const std::string& path); 
+    void load(const std::string &path);
 
-private:
+  private:
     GridConfig grid_;
     double defaultBaseCapacity_;
     std::unordered_map<WeatherSeverity, double> weatherFactors_;

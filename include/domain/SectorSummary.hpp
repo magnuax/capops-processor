@@ -24,6 +24,7 @@ class SectorSummary
     void increaseTrackCount();
     void decreaseTrackCount();
     void updateState();
+    void updateTime(std::int64_t timestamp); 
 
   private:
     int sectorId_;

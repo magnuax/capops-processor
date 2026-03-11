@@ -1,17 +1,17 @@
 #include "app/ProcessorApp.hpp"
 #include "compute/ComputeData.hpp"
-#include "simulator/SimpleTestSimulator.hpp"
 #include "config/Config.hpp"
+#include "simulator/SimpleTestSimulator.hpp"
 
 #include <variant>
 
 void ProcessorApp::run()
 {
     SimpleTestSimulator simulator;
-    Configuration config("configuration.cfg"); 
+    Configuration config("configuration.cfg");
     ComputeData computeData(config);
 
-    //just for testing now, will remove later:
+    // just for testing now, will remove later:
     while (simulator.hasNextEvent())
     {
         SimulationEvent event = simulator.nextEvent();
