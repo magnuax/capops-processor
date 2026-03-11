@@ -13,10 +13,11 @@ class SectorSummary
                   double effectiveCapacity, SectorState state);
 
     // getters
-    int getTrackCount();
-    double getBaseCapacity();
-    SectorState getState();
-    double getEffectiveCapacity();
+    int getSectorId() const; 
+    int getTrackCount() const;
+    double getBaseCapacity() const;
+    SectorState getState() const;
+    double getEffectiveCapacity() const;
     bool isAtRisk();
     bool isCongested();
 

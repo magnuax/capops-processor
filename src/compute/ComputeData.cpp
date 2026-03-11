@@ -90,6 +90,26 @@ void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
     if (oldState != newState)
     {
         RiskEvent riskEvent(sectorId, timestamp, newState);
-        riskEvents_.push_back(riskEvent);
+        pendingRiskEvents_.push_back(riskEvent);
     }
+}
+
+ProcessingResult ComputeData::collectDataForPublish()
+{
+    ProcessingResult result;
+
+    for (const auto& [icao, track] : activeTracksByIcao_) {
+        result.trackUpdatesToPublish.push_back(track);
+    }
+
+    for (const auto& [sectorId, summary] : sectorSummariesById_) {
+        result.sectorUpdatesToPublish.push_back(summary);
+    }
+
+    while (!pendingRiskEvents_.empty()) {
+        result.riskEventsToPublish.push_back(pendingRiskEvents_.front());
+        pendingRiskEvents_.pop_front();
+    }
+
+    return result;
 }

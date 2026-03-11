@@ -9,26 +9,30 @@ SectorSummary::SectorSummary(int sectorId, std::int64_t timestamp, int trackCoun
 {
 }
 
-int SectorSummary::getTrackCount()
+int SectorSummary::getSectorId() const{
+  return sectorId_; 
+}
+
+int SectorSummary::getTrackCount() const
 {
     return trackCount_;
 }
 
-double SectorSummary::getBaseCapacity()
+double SectorSummary::getBaseCapacity() const
 {
     return baseCapacity_;
 }
 
-void SectorSummary::increaseTrackCount()
+void SectorSummary::increaseTrackCount() 
 {
     trackCount_++;
 }
 
-SectorState SectorSummary::getState()
+SectorState SectorSummary::getState() const
 {
     return state_;
 }
-double SectorSummary::getEffectiveCapacity()
+double SectorSummary::getEffectiveCapacity() const
 {
     return effectiveCapacity_;
 }

@@ -18,21 +18,18 @@ class ComputeData
     ComputeData(const Configuration& config);
     void handleTrackUpdate(const Track &track);
     void handleWeatherUpdate(const WeatherCell &weatherCell);
-
-    // helpers
-    int determineSector(const Position &position);
+    ProcessingResult collectDataForPublish();
     void evaluateSectorState(int sectorId, std::int64_t timestamp);
-    bool isAtRisk(int sectorId);
 
   private:
     std::unordered_map<std::string, Track> activeTracksByIcao_;
     std::unordered_map<int, WeatherCell> weatherBySectorId_;
     std::unordered_map<int, SectorSummary> sectorSummariesById_;
     std::unordered_map<int, Sector> sectorsById_;
-    std::deque<RiskEvent> riskEvents_;
+    std::deque<RiskEvent> pendingRiskEvents_;
     ProcessingResult result_;
     Grid grid_;
-    double defaultBaseCapacity_; 
+    double defaultBaseCapacity_;     
 
     void initializeSectors();
 };
