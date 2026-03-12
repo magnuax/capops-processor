@@ -10,7 +10,9 @@ class SectorSummary
   public:
     SectorSummary(int sectorId, std::int64_t timestamp, int trackCount,
                   WeatherSeverity weatherSeverity, double weatherFactor, double baseCapacity,
-                  double effectiveCapacity, SectorState state);
+                  SectorState state);
+
+
 
     // getters
     int getSectorId() const; 
@@ -26,6 +28,7 @@ class SectorSummary
     void decreaseTrackCount();
     void updateState();
     void updateTime(std::int64_t timestamp); 
+    void updateWeather(WeatherSeverity weatherSeverity, double weatherFactor); 
 
   private:
     int sectorId_;
@@ -34,6 +37,6 @@ class SectorSummary
     WeatherSeverity weatherSeverity_;
     double weatherFactor_;
     double baseCapacity_;
-    double effectiveCapacity_;
+    //effective (sett inn)
     SectorState state_;
 };

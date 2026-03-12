@@ -2,10 +2,10 @@
 
 SectorSummary::SectorSummary(int sectorId, std::int64_t timestamp, int trackCount,
                              WeatherSeverity weatherSeverity, double weatherFactor,
-                             double baseCapacity, double effectiveCapacity, SectorState state)
+                             double baseCapacity, SectorState state)
     : sectorId_(sectorId), timestamp_(timestamp), trackCount_(trackCount),
       weatherSeverity_(weatherSeverity), weatherFactor_(weatherFactor), baseCapacity_(baseCapacity),
-      effectiveCapacity_(effectiveCapacity), state_(state)
+      state_(state)
 {
 }
 
@@ -32,9 +32,10 @@ SectorState SectorSummary::getState() const
 {
     return state_;
 }
+
 double SectorSummary::getEffectiveCapacity() const
 {
-    return effectiveCapacity_;
+    return baseCapacity_ * weatherFactor_;
 }
 
 void SectorSummary::decreaseTrackCount()
@@ -47,7 +48,7 @@ void SectorSummary::decreaseTrackCount()
 
 bool SectorSummary::isAtRisk()
 {
-    if (trackCount_ > effectiveCapacity_)
+    if (trackCount_ > getEffectiveCapacity())
     {
         return true;
     }
@@ -81,4 +82,10 @@ void SectorSummary::updateState()
 
 void SectorSummary::updateTime(std::int64_t timestamp){
   timestamp_ = timestamp; 
+}
+
+void SectorSummary::updateWeather(WeatherSeverity severity, double weatherFactor)
+{
+    weatherSeverity_ = severity;
+    weatherFactor_ = weatherFactor;
 }

@@ -8,6 +8,9 @@ class WeatherCell
 {
   public:
     WeatherCell(int sectorId, std::int64_t timestamp, WeatherSeverity severity);
+    int getSectorId() const; 
+    std::int64_t getTimestamp() const; 
+    WeatherSeverity getWeatherSeverity() const; 
 
   private:
     int sectorId_;

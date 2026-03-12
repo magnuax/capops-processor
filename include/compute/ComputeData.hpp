@@ -23,13 +23,12 @@ class ComputeData
 
   private:
     std::unordered_map<std::string, Track> activeTracksByIcao_;
-    std::unordered_map<int, WeatherCell> weatherBySectorId_;
     std::unordered_map<int, SectorSummary> sectorSummariesById_;
-    std::unordered_map<int, Sector> sectorsById_;
     std::deque<RiskEvent> pendingRiskEvents_;
     ProcessingResult result_;
     Grid grid_;
-    double defaultBaseCapacity_;     
+    Configuration config_; 
+    int totalRiskEvents_ = 0; 
 
     void initializeSectors();
 };

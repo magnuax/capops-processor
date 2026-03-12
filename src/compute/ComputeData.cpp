@@ -11,8 +11,8 @@
 
 
 ComputeData::ComputeData(const Configuration& configuration)
-    : grid_(configuration.grid()),
-      defaultBaseCapacity_(configuration.defaultBaseCapacity())
+    : config_(configuration), 
+    grid_(configuration.grid())
 {
     initializeSectors();
 }
@@ -28,15 +28,13 @@ void ComputeData::initializeSectors()
                 0,                      // trackCount
                 WeatherSeverity::OK,
                 1.0,                    // weatherFactor
-                defaultBaseCapacity_,
-                defaultBaseCapacity_,   // effectiveCapacity
+                config_.defaultBaseCapacity(),
                 SectorState::NORMAL));
     }
 }
 
 void ComputeData::handleTrackUpdate(const Track &newTrack)
 {
-    ProcessingResult result;
     int newSectorId = grid_.determineSector(newTrack.getPosition());
     auto currentTrack = activeTracksByIcao_.find(newTrack.getIcao());
     std::int64_t time = newTrack.getTimestamp();
@@ -72,7 +70,17 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
 
 void ComputeData::handleWeatherUpdate(const WeatherCell &weatherCell)
 {
+    int sectorId = weatherCell.getSectorId(); 
+    WeatherSeverity severity = weatherCell.getWeatherSeverity();
+    double factor = config_.weatherFactor(severity);
+    SectorSummary &summary = sectorSummariesById_.at(sectorId);
+
+    summary.updateWeather(weatherCell.getWeatherSeverity(), factor); 
+    
+    evaluateSectorState(sectorId, weatherCell.getTimestamp());
+
 }
+
 
 
 void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
@@ -89,10 +97,12 @@ void ComputeData::evaluateSectorState(int sectorId, std::int64_t timestamp)
 
     if (oldState != newState)
     {
-        RiskEvent riskEvent(sectorId, timestamp, newState);
+        totalRiskEvents_++; 
+        RiskEvent riskEvent(totalRiskEvents_, sectorId, timestamp, newState);
         pendingRiskEvents_.push_back(riskEvent);
     }
 }
+
 
 ProcessingResult ComputeData::collectDataForPublish()
 {

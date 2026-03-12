@@ -1,7 +1,7 @@
 #include "domain/RiskEvent.hpp"
 
-RiskEvent::RiskEvent(int sectorId, std::int64_t timestamp, SectorState state)
-    : sectorId_(std::move(sectorId)), timestamp_(timestamp), state_(state)
+RiskEvent::RiskEvent(int riskEventId, int sectorId, std::int64_t timestamp, SectorState state)
+    : riskEventId_(std::move(riskEventId)), sectorId_(std::move(sectorId)), timestamp_(timestamp), state_(state)
 {
 }
 
