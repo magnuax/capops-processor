@@ -1,6 +1,6 @@
 #include "domain/SectorSummary.hpp"
 
-SectorSummary::SectorSummary(int sectorId, std::int64_t timestamp, int trackCount,
+SectorSummary::SectorSummary(int sectorId, std::string timestamp, int trackCount,
                              WeatherSeverity weatherSeverity, double weatherFactor,
                              double baseCapacity, SectorState state)
     : sectorId_(sectorId), timestamp_(timestamp), trackCount_(trackCount),
@@ -9,8 +9,9 @@ SectorSummary::SectorSummary(int sectorId, std::int64_t timestamp, int trackCoun
 {
 }
 
-int SectorSummary::getSectorId() const{
-  return sectorId_; 
+int SectorSummary::getSectorId() const
+{
+    return sectorId_;
 }
 
 int SectorSummary::getTrackCount() const
@@ -23,7 +24,7 @@ double SectorSummary::getBaseCapacity() const
     return baseCapacity_;
 }
 
-void SectorSummary::increaseTrackCount() 
+void SectorSummary::increaseTrackCount()
 {
     trackCount_++;
 }
@@ -80,8 +81,9 @@ void SectorSummary::updateState()
     }
 }
 
-void SectorSummary::updateTime(std::int64_t timestamp){
-  timestamp_ = timestamp; 
+void SectorSummary::updateTime(std::string timestamp)
+{
+    timestamp_ = timestamp;
 }
 
 void SectorSummary::updateWeather(WeatherSeverity severity, double weatherFactor)
