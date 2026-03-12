@@ -1,18 +1,20 @@
 #include "compute/Grid.hpp"
 #include <stdexcept>
 
-Grid::Grid(const GridConfig& config)
-    : config_(config)
+Grid::Grid(const GridConfig &config) : config_(config)
 {
-    if (config_.rows <= 0 || config_.cols <= 0) {
+    if (config_.rows <= 0 || config_.cols <= 0)
+    {
         throw std::invalid_argument("Grid rows and cols must be greater than 0");
     }
 
-    if (config_.maxLat <= config_.minLat) {
+    if (config_.maxLat <= config_.minLat)
+    {
         throw std::invalid_argument("Grid maxLat must be greater than minLat");
     }
 
-    if (config_.maxLon <= config_.minLon) {
+    if (config_.maxLon <= config_.minLon)
+    {
         throw std::invalid_argument("Grid maxLon must be greater than minLon");
     }
 
@@ -25,17 +27,16 @@ int Grid::sectorCount() const
     return config_.rows * config_.cols;
 }
 
-bool Grid::isInside(const Position& position) const
+bool Grid::isInside(const Position &position) const
 {
-    return position.latDeg > config_.minLat &&
-           position.latDeg < config_.maxLat &&
-           position.lonDeg > config_.minLon &&
-           position.lonDeg < config_.maxLon;
+    return position.latDeg > config_.minLat && position.latDeg < config_.maxLat &&
+           position.lonDeg > config_.minLon && position.lonDeg < config_.maxLon;
 }
 
-int Grid::determineSector(const Position& position) const
+int Grid::determineSector(const Position &position) const
 {
-    if (!isInside(position)) {
+    if (!isInside(position))
+    {
         return -1;
     }
 
