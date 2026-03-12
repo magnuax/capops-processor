@@ -66,13 +66,13 @@ void ComputeData::initializeSectors()
 {
     for (int sectorId = 0; sectorId < grid_.sectorCount(); ++sectorId)
     {
-        sectorSummariesById_.emplace(sectorId, SectorSummary(sectorId,
-                                                             "", // timestamp
-                                                             0,  // trackCount
-                                                             WeatherSeverity::OK,
-                                                             1.0, // weatherFactor
-                                                             config_.defaultBaseCapacity(),
-                                                             SectorState::NORMAL));
+        sectorSummariesById_.emplace(
+            sectorId, SectorSummary(sectorId, grid_.row(sectorId), grid_.column(sectorId),
+                                    "", // timestamp
+                                    0,  // localAircraftCount
+                                    WeatherSeverity::OK,
+                                    1.0, // weatherFactor
+                                    config_.defaultBaseCapacity(), SectorState::NORMAL));
     }
 }
 
@@ -93,10 +93,10 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
         int oldSectorId = grid_.determineSector(oldTrack.getPosition());
         if (oldSectorId != newSectorId)
         {
-            sectorSummariesById_.at(oldSectorId).decreaseTrackCount();
+            sectorSummariesById_.at(oldSectorId).decreaseLocalAircraftCount();
             evaluateSectorState(oldSectorId, time);
 
-            sectorSummariesById_.at(newSectorId).increaseTrackCount();
+            sectorSummariesById_.at(newSectorId).increaseLocalAircraftCount();
             evaluateSectorState(newSectorId, time);
         }
         currentTrack->second = newTrack;
@@ -105,7 +105,7 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
     // new track
     else
     {
-        sectorSummariesById_.at(newSectorId).increaseTrackCount();
+        sectorSummariesById_.at(newSectorId).increaseLocalAircraftCount();
         evaluateSectorState(newSectorId, time);
         activeTracksByIcao_.insert({newTrack.getIcao(), newTrack});
     }

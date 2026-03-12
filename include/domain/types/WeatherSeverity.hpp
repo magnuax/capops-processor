@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class WeatherSeverity
 {
@@ -7,3 +8,5 @@ enum class WeatherSeverity
     SEVERE,
     EXTREME
 };
+
+std::string weatherSeverityToString(WeatherSeverity severity);
