@@ -6,3 +6,18 @@ Track::Track(std::string icao, std::int64_t timestamp, Position position, double
       altitude_(altitude), velocity_(velocity), heading_(heading)
 {
 }
+
+std::string Track::getIcao() const
+{
+    return icao_;
+}
+
+std::int64_t Track::getTimestamp() const
+{
+    return timestamp_;
+}
+
+Position Track::getPosition() const
+{
+    return position_;
+}

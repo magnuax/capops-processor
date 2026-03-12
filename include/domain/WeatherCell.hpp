@@ -7,10 +7,13 @@
 class WeatherCell
 {
   public:
-    WeatherCell(std::string sectorId, std::int64_t timestamp, WeatherSeverity severity);
+    WeatherCell(int sectorId, std::int64_t timestamp, WeatherSeverity severity);
+    int getSectorId() const; 
+    std::int64_t getTimestamp() const; 
+    WeatherSeverity getWeatherSeverity() const; 
 
   private:
-    std::string sectorId_;
+    int sectorId_;
     std::int64_t timestamp_;
     WeatherSeverity severity_;
 };

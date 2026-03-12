@@ -4,12 +4,15 @@
 #include <sstream>
 #include <stdexcept>
 
+
 Configuration::Configuration(const std::string& path)
 {
     load(path);
 }
 
-const GridConfig& Configuration::grid() const
+
+const GridConfig &Configuration::grid() const
+
 {
     return grid_;
 }
@@ -26,6 +29,7 @@ double Configuration::weatherFactor(WeatherSeverity severity) const
 
 
 
+
 void Configuration::load(const std::string& path)
 {
     std::ifstream file(path);
@@ -38,8 +42,8 @@ void Configuration::load(const std::string& path)
 
     while (std::getline(file, line))
     {
-        if (line.empty()) continue;
 
+        if (line.empty()) continue;
         if (line[0] == '[')
         {
             currentSection = line.substr(1, line.size() - 2);
@@ -47,6 +51,7 @@ void Configuration::load(const std::string& path)
         }
 
         auto pos = line.find('=');
+
         if (pos == std::string::npos) continue;
 
         std::string key = line.substr(0, pos);
@@ -54,12 +59,14 @@ void Configuration::load(const std::string& path)
 
         if (currentSection == "grid")
         {
+
             if (key == "minLat") grid_.minLat = std::stod(value);
             else if (key == "maxLat") grid_.maxLat = std::stod(value);
             else if (key == "minLon") grid_.minLon = std::stod(value);
             else if (key == "maxLon") grid_.maxLon = std::stod(value);
             else if (key == "rows") grid_.rows = std::stoi(value);
             else if (key == "cols") grid_.cols = std::stoi(value);
+
         }
 
         else if (currentSection == "capacity")

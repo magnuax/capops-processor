@@ -2,6 +2,9 @@
 
 class ProcessorApp
 {
-  private:
   public:
+    ProcessorApp() {};
+    void run();
+
+  private:
 };

@@ -6,10 +6,17 @@
 class RiskEvent
 {
   public:
-    RiskEvent(std::string sectorId, std::int64_t timestamp, SectorState state);
+    RiskEvent(int riskEventId, int sectorId, std::int64_t timestamp, SectorState state);
+
+    int getSectorId() const; 
+    std::int64_t getTimestamp() const; 
+    SectorState getState() const; 
 
   private:
-    std::string sectorId_;
+    int riskEventId_; 
+    int sectorId_;
     std::int64_t timestamp_;
     SectorState state_;
+    std::string message_; 
+    bool acknowledged_ = false; 
 };

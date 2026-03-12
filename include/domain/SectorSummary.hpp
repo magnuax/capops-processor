@@ -8,17 +8,35 @@
 class SectorSummary
 {
   public:
-    SectorSummary(std::string sectorId, std::int64_t timestamp, int trackCount,
+    SectorSummary(int sectorId, std::int64_t timestamp, int trackCount,
                   WeatherSeverity weatherSeverity, double weatherFactor, double baseCapacity,
-                  double effectiveCapacity, SectorState state);
+                  SectorState state);
+
+
+
+    // getters
+    int getSectorId() const; 
+    int getTrackCount() const;
+    double getBaseCapacity() const;
+    SectorState getState() const;
+    double getEffectiveCapacity() const;
+    bool isAtRisk();
+    bool isCongested();
+
+    // helpers
+    void increaseTrackCount();
+    void decreaseTrackCount();
+    void updateState();
+    void updateTime(std::int64_t timestamp); 
+    void updateWeather(WeatherSeverity weatherSeverity, double weatherFactor); 
 
   private:
-    std::string sectorId_;
+    int sectorId_;
     std::int64_t timestamp_;
-    int trackCount_;
+    int trackCount_ = 0;
     WeatherSeverity weatherSeverity_;
     double weatherFactor_;
     double baseCapacity_;
-    double effectiveCapacity_;
+    //effective (sett inn)
     SectorState state_;
 };

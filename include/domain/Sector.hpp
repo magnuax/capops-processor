@@ -5,9 +5,9 @@
 class Sector
 {
   public:
-    Sector(std::string id, double baseCapacity);
+    Sector(int id, double baseCapacity);
 
   private:
-    std::string id_;
+    int id_;
     double baseCapacity_;
 };
