@@ -13,6 +13,8 @@ class Grid
 
     int rows() const;
     int cols() const;
+    int row(int sectorId) const;
+    int column(int sectorId) const;
 
   private:
     GridConfig config_;

@@ -55,3 +55,23 @@ int Grid::cols() const
 {
     return config_.cols;
 }
+
+int Grid::row(int sectorId) const
+{
+    if (sectorId < 0 || sectorId >= sectorCount())
+    {
+        throw std::out_of_range("sectorId is out of range");
+    }
+
+    return sectorId / config_.cols;
+}
+
+int Grid::column(int sectorId) const
+{
+    if (sectorId < 0 || sectorId >= sectorCount())
+    {
+        throw std::out_of_range("sectorId is out of range");
+    }
+
+    return sectorId % config_.cols;
+}
