@@ -36,7 +36,7 @@ void ProcessorApp::run()
     std::cout << "\n--- ProcessingResult ---\n";
 
     std::cout << "Tracks:\n";
-    for (const auto &track : result.trackUpdatesToPublish)
+    for (const auto &track : result.tracks)
     {
         std::cout << "ICAO: " << track.getIcao() << " lat: " << track.getPosition().latDeg
                   << " lon: " << track.getPosition().lonDeg << " ts: " << track.getTimestamp()
@@ -44,7 +44,7 @@ void ProcessorApp::run()
     }
 
     std::cout << "\nSector summaries:\n";
-    for (const auto &summary : result.sectorUpdatesToPublish)
+    for (const auto &summary : result.sectorSummaries)
     {
         std::cout << "Sector: " << summary.getSectorId()
                   << " tracks: " << summary.getLocalAircraftCount()
@@ -52,7 +52,7 @@ void ProcessorApp::run()
     }
 
     std::cout << "\nRisk events:\n";
-    for (const auto &risk : result.riskEventsToPublish)
+    for (const auto &risk : result.riskEvents)
     {
         std::cout << "Sector: " << risk.getSectorId()
                   << " state: " << static_cast<int>(risk.getState())
