@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+message FlightDataProto {
+  MetadataProto metadata = 1;
+  RiskEventDataProto riskEventData = 2;
+  SectorSummaryDataProto sectorSummaryData = 3;
+  TrackDataProto trackData = 4;
+}
+
+message MetadataProto {
+  int32 version = 1; 
+  string timestamp = 2;
+}
+
+message RiskEventDataProto {
+  int32 riskEventCount = 1;
+  repeated RiskEventProto riskEvents = 2;
+}
+
+message RiskEventProto {
+  int32 riskEventId = 1;
+  string riskSeverity = 2;
+  int32 sectorId = 3;
+  string createdTimestamp = 4;
+  string acknowledgedTimestamp = 5;
+  string message = 6;
+  bool acknowledged = 7;
+}
+
+message SectorSummaryDataProto {
+  int32 rowsCount = 1;
+  int32 columnsCount = 2;
+  double minLongitude = 3;
+  double maxLongitude = 4;
+  double minLatitude = 5;
+  double maxLatitude = 6;
+  repeated SectorSummaryProto sectorSummaries = 7;
+}
+
+message SectorSummaryProto {
+  int32 sectorId = 1;
+  int32 row = 2;
+  int32 column = 3;
+  string weatherSeverity = 4;
+  string riskSeverity = 5;
+  int32 localAircraftCount = 6;
+  int32 localAircraftBaseCapacity = 7;
+  int32 localAircraftEffectiveCapacity = 8;
+}
+
+message TrackDataProto {
+  int32 totalAircraftsCount = 1;
+  string coordinateSystem = 2;
+  repeated TrackProto tracks = 3;
+}
+
+message TrackProto {
+  string icao24 = 1;
+  string timestamp = 2;
+  PositionProto position = 3;
+  VelocityProto velocity = 4;
+  double headingDegrees = 5;
+  double groundTrackDegrees = 6;
+}
+
+message PositionProto {
+  double latitudeDegrees = 1;
+  double longitudeDegrees = 2;
+  double altitudeMeters = 3;
+}
+
+message VelocityProto {
+  double groundSpeedKnots = 1;
+  double verticalSpeedFeetPerMinute = 2;
+}
