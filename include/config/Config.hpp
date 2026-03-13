@@ -23,9 +23,13 @@ class Configuration
     double defaultBaseCapacity() const;
     double weatherFactor(WeatherSeverity severity) const;
     void load(const std::string &path);
+    int getProtobufVersion() const; 
+    std::string getCoordinateSystem() const; 
 
   private:
     GridConfig grid_;
     double defaultBaseCapacity_;
     std::unordered_map<WeatherSeverity, double> weatherFactors_;
+    int protobufVersion_; 
+    std::string coordinateSystem_; 
 };

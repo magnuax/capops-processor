@@ -91,3 +91,12 @@ void Configuration::load(const std::string &path)
         }
     }
 }
+
+int Configuration::getProtobufVersion() const{
+    return protobufVersion_; 
+}
+
+
+std::string Configuration::getCoordinateSystem() const{
+    return coordinateSystem_; 
+}
