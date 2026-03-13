@@ -13,6 +13,26 @@ endif()
 option(ENABLE_REDIS "Enable Redis integration" OFF)
 
 # -----------------------------
+# Protobuf
+# -----------------------------
+find_package(Protobuf REQUIRED)
+
+set(PROTO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/FlightData.proto)
+
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
+
+add_library(proto
+  ${PROTO_SRCS}
+  ${PROTO_HDRS}
+)
+
+target_link_libraries(proto PUBLIC protobuf::libprotobuf)
+
+target_include_directories(proto PUBLIC
+  ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+# -----------------------------
 # Backend sources
 # -----------------------------
 file(GLOB_RECURSE BACKEND_SOURCES CONFIGURE_DEPENDS
@@ -27,6 +47,8 @@ add_executable(backend
 target_include_directories(backend PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+target_link_libraries(backend PRIVATE proto)
 
 # -----------------------------
 # Testing (Catch2)
@@ -52,7 +74,10 @@ add_executable(backend_tests
   ${BACKEND_SOURCES}
 )
 
-target_link_libraries(backend_tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(backend_tests PRIVATE
+  Catch2::Catch2WithMain
+  proto
+)
 
 target_include_directories(backend_tests PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -64,7 +89,6 @@ add_test(NAME backend_tests COMMAND backend_tests)
 # Redis (optional)
 # -----------------------------
 if(ENABLE_REDIS)
-  # ---- Fetch hiredis ----
   FetchContent_Declare(
     hiredis
     GIT_REPOSITORY https://github.com/redis/hiredis.git
@@ -92,7 +116,6 @@ if(ENABLE_REDIS)
     add_library(hiredis::hiredis ALIAS hiredis)
   endif()
 
-  # ---- Fetch redis-plus-plus ----
   FetchContent_Declare(
     redis-plus-plus
     GIT_REPOSITORY https://github.com/sewenew/redis-plus-plus.git
