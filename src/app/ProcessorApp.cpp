@@ -46,7 +46,8 @@ void ProcessorApp::run()
     std::cout << "\nSector summaries:\n";
     for (const auto &summary : result.sectorUpdatesToPublish)
     {
-        std::cout << "Sector: " << summary.getSectorId() << " tracks: " << summary.getTrackCount()
+        std::cout << "Sector: " << summary.getSectorId()
+                  << " tracks: " << summary.getLocalAircraftCount()
                   << " state: " << static_cast<int>(summary.getState()) << "\n";
     }
 
