@@ -59,6 +59,11 @@ void SectorSummary::decreaseLocalAircraftCount()
     }
 }
 
+WeatherSeverity SectorSummary::getWeatherSeverity() const{
+  return weatherSeverity_; 
+}
+
+
 bool SectorSummary::isAtRisk()
 {
     if (localAircraftCount_ > getEffectiveCapacity())
