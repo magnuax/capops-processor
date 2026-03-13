@@ -104,14 +104,6 @@ void SectorSummary::updateWeather(WeatherSeverity weatherSeverity, double weathe
     weatherFactor_ = weatherFactor;
 }
 
-SectorSummaryPayload SectorSummary::toPayload() const
-{
-    return SectorSummaryPayload{sectorId_,
-                                row_,
-                                column_,
-                                weatherSeverityToString(weatherSeverity_),
-                                sectorStateToString(riskSeverity_),
-                                localAircraftCount_,
-                                static_cast<int>(localAircraftBaseCapacity_),
-                                static_cast<int>(getEffectiveCapacity())};
+WeatherSeverity SectorSummary::getWeatherSeverity() const{
+  return weatherSeverity_; 
 }

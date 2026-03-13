@@ -22,13 +22,10 @@ SectorState RiskEvent::getState() const
     return riskSeverity_;
 }
 
-RiskEventPayload RiskEvent::toPayload() const
-{
-    return RiskEventPayload{riskEventId_,
-                            sectorStateToString(riskSeverity_),
-                            sectorId_,
-                            createdTimestamp_,
-                            message_,
-                            false,
-                            0};
+int RiskEvent::getRiskEventId() const{
+    return riskEventId_;
+}
+
+std::string RiskEvent::getMessage() const{
+    return message_; 
 }
