@@ -1,54 +1,67 @@
 #include "domain/SectorSummary.hpp"
 
-SectorSummary::SectorSummary(int sectorId, std::int64_t timestamp, int trackCount,
-                             WeatherSeverity weatherSeverity, double weatherFactor,
-                             double baseCapacity, SectorState state)
-    : sectorId_(sectorId), timestamp_(timestamp), trackCount_(trackCount),
-      weatherSeverity_(weatherSeverity), weatherFactor_(weatherFactor), baseCapacity_(baseCapacity),
-      state_(state)
+SectorSummary::SectorSummary(int sectorId, int row, int column, std::string timestamp,
+                             int localAircraftCount, WeatherSeverity weatherSeverity,
+                             double weatherFactor, double localAircraftBaseCapacity,
+                             SectorState riskSeverity)
+    : sectorId_(sectorId), row_(row), column_(column), timestamp_(std::move(timestamp)),
+      localAircraftCount_(localAircraftCount), weatherSeverity_(weatherSeverity),
+      weatherFactor_(weatherFactor), localAircraftBaseCapacity_(localAircraftBaseCapacity),
+      riskSeverity_(riskSeverity)
 {
 }
 
-int SectorSummary::getSectorId() const{
-  return sectorId_; 
+int SectorSummary::getSectorId() const
+{
+    return sectorId_;
 }
 
-int SectorSummary::getTrackCount() const
+int SectorSummary::getRow() const
 {
-    return trackCount_;
+    return row_;
+}
+
+int SectorSummary::getColumn() const
+{
+    return column_;
+}
+
+int SectorSummary::getLocalAircraftCount() const
+{
+    return localAircraftCount_;
 }
 
 double SectorSummary::getBaseCapacity() const
 {
-    return baseCapacity_;
+    return localAircraftBaseCapacity_;
 }
 
-void SectorSummary::increaseTrackCount() 
+void SectorSummary::increaseLocalAircraftCount()
 {
-    trackCount_++;
+    localAircraftCount_++;
 }
 
 SectorState SectorSummary::getState() const
 {
-    return state_;
+    return riskSeverity_;
 }
 
 double SectorSummary::getEffectiveCapacity() const
 {
-    return baseCapacity_ * weatherFactor_;
+    return localAircraftBaseCapacity_ * weatherFactor_;
 }
 
-void SectorSummary::decreaseTrackCount()
+void SectorSummary::decreaseLocalAircraftCount()
 {
-    if (trackCount_ > 0)
+    if (localAircraftCount_ > 0)
     {
-        trackCount_--;
+        localAircraftCount_--;
     }
 }
 
 bool SectorSummary::isAtRisk()
 {
-    if (trackCount_ > getEffectiveCapacity())
+    if (localAircraftCount_ > getEffectiveCapacity())
     {
         return true;
     }
@@ -57,7 +70,7 @@ bool SectorSummary::isAtRisk()
 
 bool SectorSummary::isCongested()
 {
-    if (trackCount_ > baseCapacity_)
+    if (localAircraftCount_ > localAircraftBaseCapacity_)
     {
         return true;
     }
@@ -68,24 +81,37 @@ void SectorSummary::updateState()
 {
     if (isAtRisk())
     {
-        state_ = SectorState::AT_RISK;
+        riskSeverity_ = SectorState::AT_RISK;
     }
     else if (isCongested())
     {
-        state_ = SectorState::CONGESTED;
+        riskSeverity_ = SectorState::CONGESTED;
     }
     else
     {
-        state_ = SectorState::NORMAL;
+        riskSeverity_ = SectorState::NORMAL;
     }
 }
 
-void SectorSummary::updateTime(std::int64_t timestamp){
-  timestamp_ = timestamp; 
+void SectorSummary::updateTime(std::string timestamp)
+{
+    timestamp_ = std::move(timestamp);
 }
 
-void SectorSummary::updateWeather(WeatherSeverity severity, double weatherFactor)
+void SectorSummary::updateWeather(WeatherSeverity weatherSeverity, double weatherFactor)
 {
-    weatherSeverity_ = severity;
+    weatherSeverity_ = weatherSeverity;
     weatherFactor_ = weatherFactor;
+}
+
+SectorSummaryPayload SectorSummary::toPayload() const
+{
+    return SectorSummaryPayload{sectorId_,
+                                row_,
+                                column_,
+                                weatherSeverityToString(weatherSeverity_),
+                                sectorStateToString(riskSeverity_),
+                                localAircraftCount_,
+                                static_cast<int>(localAircraftBaseCapacity_),
+                                static_cast<int>(getEffectiveCapacity())};
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "compute/Grid.hpp"
 #include "config/Config.hpp"
 #include "domain/RiskEvent.hpp"
 #include "domain/Sector.hpp"
@@ -7,7 +8,6 @@
 #include "domain/WeatherCell.hpp"
 #include "domain/types/ProcessingResult.hpp"
 #include "domain/types/SectorState.hpp"
-#include "compute/Grid.hpp"
 #include <deque>
 #include <string>
 #include <unordered_map>
@@ -15,11 +15,11 @@
 class ComputeData
 {
   public:
-    ComputeData(const Configuration& config);
+    ComputeData(const Configuration &config);
     void handleTrackUpdate(const Track &track);
     void handleWeatherUpdate(const WeatherCell &weatherCell);
     ProcessingResult collectDataForPublish();
-    void evaluateSectorState(int sectorId, std::int64_t timestamp);
+    void evaluateSectorState(int sectorId, const std::string &timestamp);
 
   private:
     std::unordered_map<std::string, Track> activeTracksByIcao_;
@@ -27,8 +27,8 @@ class ComputeData
     std::deque<RiskEvent> pendingRiskEvents_;
     ProcessingResult result_;
     Grid grid_;
-    Configuration config_; 
-    int totalRiskEvents_ = 0; 
+    Configuration config_;
+    int totalRiskEvents_ = 0;
 
     void initializeSectors();
 };

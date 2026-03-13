@@ -3,20 +3,32 @@
 #include <cstdint>
 #include <string>
 
+struct RiskEventPayload
+{
+    int riskEventId;
+    std::string riskSeverity;
+    int sectorId;
+    std::string createdTimestamp;
+    std::string message;
+    bool acknowledged;
+    std::string acknowledgedTimeStamp;
+};
+
 class RiskEvent
 {
   public:
-    RiskEvent(int riskEventId, int sectorId, std::int64_t timestamp, SectorState state);
+    RiskEvent(int riskEventId, SectorState riskSeverity, int sectorId, std::string createdTimestamp,
+              std::string message);
 
-    int getSectorId() const; 
-    std::int64_t getTimestamp() const; 
-    SectorState getState() const; 
+    RiskEventPayload toPayload() const;
+    int getSectorId() const;
+    std::string getTimestamp() const;
+    SectorState getState() const;
 
   private:
-    int riskEventId_; 
+    int riskEventId_;
+    SectorState riskSeverity_;
     int sectorId_;
-    std::int64_t timestamp_;
-    SectorState state_;
-    std::string message_; 
-    bool acknowledged_ = false; 
+    std::string createdTimestamp_;
+    std::string message_;
 };

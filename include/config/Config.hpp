@@ -24,9 +24,7 @@ class Configuration
     double weatherFactor(WeatherSeverity severity) const;
     void load(const std::string &path);
 
-
-
-private:
+  private:
     GridConfig grid_;
     double defaultBaseCapacity_;
     std::unordered_map<WeatherSeverity, double> weatherFactors_;
