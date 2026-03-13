@@ -4,12 +4,10 @@
 #include <sstream>
 #include <stdexcept>
 
-
-Configuration::Configuration(const std::string& path)
+Configuration::Configuration(const std::string &path)
 {
     load(path);
 }
-
 
 const GridConfig &Configuration::grid() const
 
@@ -27,13 +25,11 @@ double Configuration::weatherFactor(WeatherSeverity severity) const
     return weatherFactors_.at(severity);
 }
 
-
-
-
-void Configuration::load(const std::string& path)
+void Configuration::load(const std::string &path)
 {
     std::ifstream file(path);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         throw std::runtime_error("Could not open config file");
     }
 
@@ -43,7 +39,8 @@ void Configuration::load(const std::string& path)
     while (std::getline(file, line))
     {
 
-        if (line.empty()) continue;
+        if (line.empty())
+            continue;
         if (line[0] == '[')
         {
             currentSection = line.substr(1, line.size() - 2);
@@ -52,7 +49,8 @@ void Configuration::load(const std::string& path)
 
         auto pos = line.find('=');
 
-        if (pos == std::string::npos) continue;
+        if (pos == std::string::npos)
+            continue;
 
         std::string key = line.substr(0, pos);
         std::string value = line.substr(pos + 1);
@@ -60,13 +58,18 @@ void Configuration::load(const std::string& path)
         if (currentSection == "grid")
         {
 
-            if (key == "minLat") grid_.minLat = std::stod(value);
-            else if (key == "maxLat") grid_.maxLat = std::stod(value);
-            else if (key == "minLon") grid_.minLon = std::stod(value);
-            else if (key == "maxLon") grid_.maxLon = std::stod(value);
-            else if (key == "rows") grid_.rows = std::stoi(value);
-            else if (key == "cols") grid_.cols = std::stoi(value);
-
+            if (key == "minLat")
+                grid_.minLat = std::stod(value);
+            else if (key == "maxLat")
+                grid_.maxLat = std::stod(value);
+            else if (key == "minLon")
+                grid_.minLon = std::stod(value);
+            else if (key == "maxLon")
+                grid_.maxLon = std::stod(value);
+            else if (key == "rows")
+                grid_.rows = std::stoi(value);
+            else if (key == "cols")
+                grid_.cols = std::stoi(value);
         }
 
         else if (currentSection == "capacity")
@@ -74,7 +77,6 @@ void Configuration::load(const std::string& path)
             if (key == "defaultBaseCapacity")
                 defaultBaseCapacity_ = std::stod(value);
         }
-
 
         else if (currentSection == "weatherFactors")
         {

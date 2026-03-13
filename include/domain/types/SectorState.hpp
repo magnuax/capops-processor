@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class SectorState
 {
@@ -6,3 +7,5 @@ enum class SectorState
     CONGESTED,
     AT_RISK
 };
+
+std::string sectorStateToString(SectorState state);

@@ -1,19 +1,34 @@
 #include "domain/RiskEvent.hpp"
 
-RiskEvent::RiskEvent(int riskEventId, int sectorId, std::int64_t timestamp, SectorState state)
-    : riskEventId_(std::move(riskEventId)), sectorId_(std::move(sectorId)), timestamp_(timestamp), state_(state)
+RiskEvent::RiskEvent(int riskEventId, SectorState riskSeverity, int sectorId,
+                     std::string createdTimestamp, std::string message)
+    : riskEventId_(std::move(riskEventId)), riskSeverity_(riskSeverity),
+      sectorId_(std::move(sectorId)), createdTimestamp_(createdTimestamp), message_(message)
 {
 }
 
-int RiskEvent::getSectorId() const{
-    return sectorId_; 
+int RiskEvent::getSectorId() const
+{
+    return sectorId_;
 }
 
-std::int64_t RiskEvent::getTimestamp() const{
-    return timestamp_; 
+std::string RiskEvent::getTimestamp() const
+{
+    return createdTimestamp_;
 }
 
+SectorState RiskEvent::getState() const
+{
+    return riskSeverity_;
+}
 
-SectorState RiskEvent::getState() const{
-    return state_; 
+RiskEventPayload RiskEvent::toPayload() const
+{
+    return RiskEventPayload{riskEventId_,
+                            sectorStateToString(riskSeverity_),
+                            sectorId_,
+                            createdTimestamp_,
+                            message_,
+                            false,
+                            0};
 }
