@@ -20,7 +20,7 @@ class SectorSummary
     double getBaseCapacity() const;
     SectorState getState() const;
     double getEffectiveCapacity() const;
-    WeatherSeverity getWeatherSeverity() const; 
+    WeatherSeverity getWeatherSeverity() const;
 
     // helpers
     void increaseLocalAircraftCount();

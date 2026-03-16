@@ -104,6 +104,7 @@ void SectorSummary::updateWeather(WeatherSeverity weatherSeverity, double weathe
     weatherFactor_ = weatherFactor;
 }
 
-WeatherSeverity SectorSummary::getWeatherSeverity() const{
-  return weatherSeverity_; 
+WeatherSeverity SectorSummary::getWeatherSeverity() const
+{
+    return weatherSeverity_;
 }

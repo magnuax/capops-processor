@@ -13,7 +13,7 @@ class RiskEvent
     std::string getTimestamp() const;
     SectorState getState() const;
     int getRiskEventId() const;
-    std::string getMessage() const; 
+    std::string getMessage() const;
 
   private:
     int riskEventId_;

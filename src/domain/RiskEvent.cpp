@@ -22,10 +22,12 @@ SectorState RiskEvent::getState() const
     return riskSeverity_;
 }
 
-int RiskEvent::getRiskEventId() const{
+int RiskEvent::getRiskEventId() const
+{
     return riskEventId_;
 }
 
-std::string RiskEvent::getMessage() const{
-    return message_; 
+std::string RiskEvent::getMessage() const
+{
+    return message_;
 }

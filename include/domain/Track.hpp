@@ -19,7 +19,6 @@ class Track
     double getGroundSpeedKnots() const;
     double getVerticalSpeedFeetPerMinute() const;
 
-
   private:
     std::string icao_;
     std::string timestamp_;
