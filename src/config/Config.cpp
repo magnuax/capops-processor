@@ -70,6 +70,8 @@ void Configuration::load(const std::string &path)
                 grid_.rows = std::stoi(value);
             else if (key == "cols")
                 grid_.cols = std::stoi(value);
+            else if (key == "coordinateSystem")
+                coordinateSystem_ = value;
         }
 
         else if (currentSection == "capacity")
@@ -89,5 +91,39 @@ void Configuration::load(const std::string &path)
             else if (key == "EXTREME")
                 weatherFactors_[WeatherSeverity::EXTREME] = std::stod(value);
         }
+
+        else if (currentSection == "protobufVersion")
+        {
+            if (key == "version")
+                protobufVersion_ = std::stoi(value);
+        }
+
+        else if (currentSection == "redis")
+        {
+            if (key == "redisUrl")
+                redisUrl_ = value;
+            else if (key == "redisChannel")
+                redisChannel_ = value;
+        }
     }
+}
+
+int Configuration::getProtobufVersion() const
+{
+    return protobufVersion_;
+}
+
+std::string Configuration::getCoordinateSystem() const
+{
+    return coordinateSystem_;
+}
+
+std::string Configuration::getRedisUrl() const
+{
+    return redisUrl_;
+}
+
+std::string Configuration::getRedisChannel() const
+{
+    return redisChannel_;
 }

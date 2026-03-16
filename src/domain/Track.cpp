@@ -25,12 +25,27 @@ Position Track::getPosition() const
     return position_;
 }
 
-TrackPayload Track::toPayload() const
+double Track::getHeadingDegrees() const
 {
-    return TrackPayload{icao_,
-                        timestamp_,
-                        PositionPayload{position_.latDeg, position_.lonDeg, altitudeMeters_},
-                        VelocityPayload{groundSpeedKnots_, verticalSpeedFeetPerMinute_},
-                        headingDegrees_,
-                        groundTrackDegrees_};
+    return headingDegrees_;
+}
+
+double Track::getGroundTrackDegrees() const
+{
+    return groundTrackDegrees_;
+}
+
+double Track::getAltitudeMeters() const
+{
+    return altitudeMeters_;
+}
+
+double Track::getGroundSpeedKnots() const
+{
+    return groundSpeedKnots_;
+}
+
+double Track::getVerticalSpeedFeetPerMinute() const
+{
+    return verticalSpeedFeetPerMinute_;
 }

@@ -145,23 +145,23 @@ void ComputeData::evaluateSectorState(int sectorId, const std::string &timestamp
     }
 }
 
-ProcessingResult ComputeData::collectDataForPublish()
+ProcessingResult ComputeData::collectProcessingResult()
 {
     ProcessingResult result;
 
     for (const auto &[icao, track] : activeTracksByIcao_)
     {
-        result.trackUpdatesToPublish.push_back(track);
+        result.tracks.push_back(track);
     }
 
     for (const auto &[sectorId, summary] : sectorSummariesById_)
     {
-        result.sectorUpdatesToPublish.push_back(summary);
+        result.sectorSummaries.push_back(summary);
     }
 
     while (!pendingRiskEvents_.empty())
     {
-        result.riskEventsToPublish.push_back(pendingRiskEvents_.front());
+        result.riskEvents.push_back(pendingRiskEvents_.front());
         pendingRiskEvents_.pop_front();
     }
 
