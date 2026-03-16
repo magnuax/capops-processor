@@ -5,18 +5,6 @@
 #include <cstdint>
 #include <string>
 
-struct SectorSummaryPayload
-{
-    int sectorId;
-    int row;
-    int column;
-    std::string weatherSeverity;
-    std::string riskSeverity;
-    int localAircraftCount;
-    int localAircraftBaseCapacity;
-    int localAircraftEffectiveCapacity;
-};
-
 class SectorSummary
 {
   public:
@@ -32,6 +20,7 @@ class SectorSummary
     double getBaseCapacity() const;
     SectorState getState() const;
     double getEffectiveCapacity() const;
+    WeatherSeverity getWeatherSeverity() const;
 
     // helpers
     void increaseLocalAircraftCount();
@@ -41,8 +30,6 @@ class SectorSummary
     void updateWeather(WeatherSeverity weatherSeverity, double weatherFactor);
     bool isAtRisk();
     bool isCongested();
-
-    SectorSummaryPayload toPayload() const;
 
   private:
     int sectorId_;

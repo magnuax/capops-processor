@@ -6,7 +6,7 @@
 
 struct ProcessingResult
 {
-    std::vector<Track> trackUpdatesToPublish;
-    std::vector<SectorSummary> sectorUpdatesToPublish;
-    std::vector<RiskEvent> riskEventsToPublish;
+    std::vector<Track> tracks;
+    std::vector<SectorSummary> sectorSummaries;
+    std::vector<RiskEvent> riskEvents;
 };

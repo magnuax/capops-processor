@@ -3,29 +3,6 @@
 #include <cstdint>
 #include <string>
 
-struct PositionPayload
-{
-    double latitudeDegrees;
-    double longitudeDegrees;
-    double altitudeMeters;
-};
-
-struct VelocityPayload
-{
-    double groundSpeedKnots;
-    double verticalSpeedFeetPerMinute;
-};
-
-struct TrackPayload
-{
-    std::string icao24;
-    std::string timestamp;
-    PositionPayload position;
-    VelocityPayload velocity;
-    double headingDegrees;
-    double groundTrackDegrees;
-};
-
 class Track
 {
 
@@ -36,8 +13,11 @@ class Track
     std::string getIcao() const;
     std::string getTimestamp() const;
     Position getPosition() const;
-
-    TrackPayload toPayload() const;
+    double getHeadingDegrees() const;
+    double getGroundTrackDegrees() const;
+    double getAltitudeMeters() const;
+    double getGroundSpeedKnots() const;
+    double getVerticalSpeedFeetPerMinute() const;
 
   private:
     std::string icao_;
