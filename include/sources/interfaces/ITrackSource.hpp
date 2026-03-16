@@ -3,10 +3,10 @@
 #include <optional>
 #include <vector>
 
-class IDataSource
+class ITrackSource
 {
   public:
-    virtual ~IDataSource() = default;
+    virtual ~ITrackSource() = default;
   
     virtual std::optional<Track> getTrack(const std::string &icao) const = 0;
   
