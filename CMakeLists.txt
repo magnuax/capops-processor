@@ -14,8 +14,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-option(ENABLE_REDIS "Enable Redis integration" ON)
-
 include(FetchContent)
 include(CTest)
 
@@ -103,50 +101,48 @@ target_link_libraries(backend_tests
 add_test(NAME backend_tests COMMAND backend_tests)
 
 # -----------------------------
-# Redis (optional)
+# Redis
 # -----------------------------
-if(ENABLE_REDIS)
-    FetchContent_Declare(
-        hiredis
-        GIT_REPOSITORY https://github.com/redis/hiredis.git
-        GIT_TAG v1.3.0
-        GIT_SHALLOW TRUE
-    )
+FetchContent_Declare(
+    hiredis
+    GIT_REPOSITORY https://github.com/redis/hiredis.git
+    GIT_TAG v1.3.0
+    GIT_SHALLOW TRUE
+)
 
-    set(DISABLE_TESTS ON CACHE BOOL "Disable hiredis tests" FORCE)
-    set(ENABLE_EXAMPLES OFF CACHE BOOL "Disable hiredis examples/tests" FORCE)
+set(DISABLE_TESTS ON CACHE BOOL "Disable hiredis tests" FORCE)
+set(ENABLE_EXAMPLES OFF CACHE BOOL "Disable hiredis examples/tests" FORCE)
 
-    FetchContent_MakeAvailable(hiredis)
+FetchContent_MakeAvailable(hiredis)
 
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/hiredis_include/hiredis)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/hiredis_include/hiredis)
 
-    file(COPY
-        ${hiredis_SOURCE_DIR}/hiredis.h
-        ${hiredis_SOURCE_DIR}/read.h
-        ${hiredis_SOURCE_DIR}/sds.h
-        ${hiredis_SOURCE_DIR}/async.h
-        ${hiredis_SOURCE_DIR}/alloc.h
-        DESTINATION ${CMAKE_BINARY_DIR}/hiredis_include/hiredis
-    )
+file(COPY
+    ${hiredis_SOURCE_DIR}/hiredis.h
+    ${hiredis_SOURCE_DIR}/read.h
+    ${hiredis_SOURCE_DIR}/sds.h
+    ${hiredis_SOURCE_DIR}/async.h
+    ${hiredis_SOURCE_DIR}/alloc.h
+    DESTINATION ${CMAKE_BINARY_DIR}/hiredis_include/hiredis
+)
 
-    set(HIREDIS_HEADER ${CMAKE_BINARY_DIR}/hiredis_include)
-    set(HIREDIS_LIB hiredis)
+set(HIREDIS_HEADER ${CMAKE_BINARY_DIR}/hiredis_include)
+set(HIREDIS_LIB hiredis)
 
-    if(TARGET hiredis AND NOT TARGET hiredis::hiredis)
-        add_library(hiredis::hiredis ALIAS hiredis)
-    endif()
-
-    FetchContent_Declare(
-        redis-plus-plus
-        GIT_REPOSITORY https://github.com/sewenew/redis-plus-plus.git
-        GIT_TAG 1.3.9
-        GIT_SHALLOW TRUE
-    )
-
-    set(REDIS_PLUS_PLUS_BUILD_TEST OFF CACHE BOOL "Disable building redis-plus-plus tests" FORCE)
-
-    FetchContent_MakeAvailable(redis-plus-plus)
-
-    target_link_libraries(backend PRIVATE redis++::redis++)
-    target_link_libraries(backend_tests PRIVATE redis++::redis++)
+if(TARGET hiredis AND NOT TARGET hiredis::hiredis)
+    add_library(hiredis::hiredis ALIAS hiredis)
 endif()
+
+FetchContent_Declare(
+    redis-plus-plus
+    GIT_REPOSITORY https://github.com/sewenew/redis-plus-plus.git
+    GIT_TAG 1.3.9
+    GIT_SHALLOW TRUE
+)
+
+set(REDIS_PLUS_PLUS_BUILD_TEST OFF CACHE BOOL "Disable building redis-plus-plus tests" FORCE)
+
+FetchContent_MakeAvailable(redis-plus-plus)
+
+target_link_libraries(backend PRIVATE redis++::redis++)
+target_link_libraries(backend_tests PRIVATE redis++::redis++)
