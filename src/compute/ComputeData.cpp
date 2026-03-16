@@ -145,7 +145,7 @@ void ComputeData::evaluateSectorState(int sectorId, const std::string &timestamp
     }
 }
 
-ProcessingResult ComputeData::collectDataForPublish()
+ProcessingResult ComputeData::collectProcessingResult()
 {
     ProcessingResult result;
 

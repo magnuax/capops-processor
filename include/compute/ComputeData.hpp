@@ -18,7 +18,7 @@ class ComputeData
     ComputeData(const Configuration &config);
     void handleTrackUpdate(const Track &track);
     void handleWeatherUpdate(const WeatherCell &weatherCell);
-    ProcessingResult collectDataForPublish();
+    ProcessingResult collectProcessingResult();
     void evaluateSectorState(int sectorId, const std::string &timestamp);
 
   private:
