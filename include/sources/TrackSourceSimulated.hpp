@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ingestion/IDataSource.hpp"
-#include "simulator/RadarSimulator.hpp"
+#include "sources/interfaces/ITrackSource.hpp"
+#include "sources/simulations/RadarSimulator.hpp"
 
-class SimSource : public IDataSource
+class TrackSourceSimulated : public ITrackSource
 {
   public:
-    SimSource(RadarSimulator &simulator);
+    TrackSourceSimulated(RadarSimulator &simulator);
 
     std::optional<Track> getTrack(const std::string &icao) const override;
 
