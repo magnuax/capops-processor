@@ -45,6 +45,9 @@ target_include_directories(proto
 # -----------------------------
 # Backend sources
 # -----------------------------
+find_package(Qt6 REQUIRED COMPONENTS Core Network)
+
+
 file(GLOB_RECURSE BACKEND_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
@@ -59,9 +62,17 @@ target_include_directories(backend
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+target_compile_definitions(backend PRIVATE _USE_MATH_DEFINES)
+
+target_include_directories(backend PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 target_link_libraries(backend
     PRIVATE
         proto
+        Qt6::Core 
+        Qt6::Network
 )
 
 # -----------------------------
@@ -87,6 +98,8 @@ add_executable(backend_tests
     ${BACKEND_SOURCES}
 )
 
+target_compile_definitions(backend_tests PRIVATE _USE_MATH_DEFINES)
+
 target_include_directories(backend_tests
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -96,6 +109,8 @@ target_link_libraries(backend_tests
     PRIVATE
         Catch2::Catch2WithMain
         proto
+        Qt6::Core 
+        Qt6::Network
 )
 
 add_test(NAME backend_tests COMMAND backend_tests)

@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
 
@@ -22,6 +22,11 @@ jobs:
 
       - name: Install Ninja
         uses: seanmiddleditch/gha-setup-ninja@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
 
       - name: Install Protobuf (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
@@ -45,11 +50,7 @@ jobs:
           choco install protoc -y
 
       - name: Configure CMake
-        run: >
-          cmake -S . -B build
-          -G Ninja
-          -DCMAKE_BUILD_TYPE=Release
-          -DBUILD_TESTING=ON
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
 
       - name: Build
         run: cmake --build build
