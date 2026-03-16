@@ -27,6 +27,8 @@ add_executable(backend
   ${BACKEND_SOURCES}
 )
 
+target_compile_definitions(backend PRIVATE _USE_MATH_DEFINES)
+
 target_link_libraries(backend PRIVATE Qt6::Core Qt6::Network)
 
 target_include_directories(backend PRIVATE
@@ -56,6 +58,8 @@ add_executable(backend_tests
   ${TEST_SOURCES}
   ${BACKEND_SOURCES}
 )
+
+target_compile_definitions(backend_tests PRIVATE _USE_MATH_DEFINES)
 
 target_link_libraries(backend_tests PRIVATE Catch2::Catch2WithMain Qt6::Core Qt6::Network)
 
