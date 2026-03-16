@@ -15,6 +15,9 @@ option(ENABLE_REDIS "Enable Redis integration" OFF)
 # -----------------------------
 # Backend sources
 # -----------------------------
+find_package(Qt6 REQUIRED COMPONENTS Core Network)
+
+
 file(GLOB_RECURSE BACKEND_SOURCES CONFIGURE_DEPENDS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
@@ -23,6 +26,8 @@ add_executable(backend
   ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
   ${BACKEND_SOURCES}
 )
+
+target_link_libraries(backend PRIVATE Qt6::Core Qt6::Network)
 
 target_include_directories(backend PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -52,7 +57,7 @@ add_executable(backend_tests
   ${BACKEND_SOURCES}
 )
 
-target_link_libraries(backend_tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(backend_tests PRIVATE Catch2::Catch2WithMain Qt6::Core Qt6::Network)
 
 target_include_directories(backend_tests PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/include
