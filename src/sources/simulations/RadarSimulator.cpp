@@ -1,4 +1,4 @@
-#include "simulator/RadarSimulator.hpp"
+#include "sources/simulations/RadarSimulator.hpp"
 #include <cmath>
 #include <random>
 #include <stdexcept>
@@ -91,7 +91,8 @@ void RadarSimulator::start()
 
     if (!initialized)
     {
-        initializeFlights();
+        int numFlights = 20;
+        initializeFlights(numFlights);
     }
 
     isRunning_ = true;
