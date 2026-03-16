@@ -59,7 +59,7 @@ TrackProto mapToProto(const Track &track)
 }
 
 FlightDataProto mapToProto(const ProcessingResult &result, const Configuration &config,
-                           const Grid &grid)
+                           const GridConfig &grid)
 {
     FlightDataProto proto;
 
@@ -68,10 +68,9 @@ FlightDataProto mapToProto(const ProcessingResult &result, const Configuration &
     proto.mutable_metadata()->set_timestamp(createIsoTimestamp());
 
     // Risk events
-    RiskEventDataProto* riskEventData = proto.mutable_riskeventdata();
-    riskEventData>set_riskeventcount(static_cast<int>(result.riskEvents.size()));
+    RiskEventDataProto *riskEventData = proto.mutable_riskeventdata();
+    riskEventData->set_riskeventcount(static_cast<int>(result.riskEvents.size()));
 
-    
     for (const auto &event : result.riskEvents)
     {
         *riskEventData->add_riskevents() = mapToProto(event);
@@ -79,12 +78,12 @@ FlightDataProto mapToProto(const ProcessingResult &result, const Configuration &
 
     // Sector summaries
     SectorSummaryDataProto *sectorSummaryData = proto.mutable_sectorsummarydata();
-    sectorSummaryData->set_rowscount(grid.rows());
-    sectorSummaryData->set_columnscount(grid.cols());
-    sectorSummaryData->set_minlongitude(config.grid().minLon);
-    sectorSummaryData->set_maxlongitude(config.grid().maxLon);
-    sectorSummaryData->set_minlatitude(config.grid().minLat);
-    sectorSummaryData->set_maxlatitude(config.grid().maxLat);
+    sectorSummaryData->set_rowscount(grid.rows);
+    sectorSummaryData->set_columnscount(grid.cols);
+    sectorSummaryData->set_minlongitude(grid.minLon);
+    sectorSummaryData->set_maxlongitude(grid.maxLon);
+    sectorSummaryData->set_minlatitude(grid.minLat);
+    sectorSummaryData->set_maxlatitude(grid.maxLat);
 
     for (const auto &summary : result.sectorSummaries)
     {

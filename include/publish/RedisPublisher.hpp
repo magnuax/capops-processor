@@ -7,11 +7,11 @@
 class RedisPublisher
 {
   public:
-    RedisPublisher(const Configuration &config, const Grid &grid);
+    RedisPublisher(const Configuration &config);
 
     void publish(const ProcessingResult &result);
 
   private:
     const Configuration &config_;
-    const Grid &grid_;
+    GridConfig grid_;
 };
