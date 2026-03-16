@@ -105,6 +105,19 @@ void Configuration::load(const std::string &path)
             else if (key == "redisChannel")
                 redisChannel_ = value;
         }
+        else if (currentSection == "dataSource")
+        {
+            if (key == "type")
+            {
+                if (value == "sim")
+                    sourceType_ = SourceType::Simulation;
+                else if (value == "api")
+                    sourceType_ = SourceType::Api;
+                else
+                    throw std::invalid_argument("Invalid type '" + value +
+                                                "'. Expected 'sim' or 'api'.");
+            }
+        }
     }
 }
 
@@ -126,4 +139,9 @@ std::string Configuration::getRedisUrl() const
 std::string Configuration::getRedisChannel() const
 {
     return redisChannel_;
+}
+
+SourceType Configuration::getSourceType() const
+{
+    return sourceType_;
 }

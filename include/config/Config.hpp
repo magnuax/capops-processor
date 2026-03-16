@@ -1,5 +1,6 @@
 #pragma once
 
+#include "domain/types/SourceType.hpp"
 #include "domain/types/WeatherSeverity.hpp"
 #include <string>
 #include <unordered_map>
@@ -27,6 +28,7 @@ class Configuration
     std::string getCoordinateSystem() const;
     std::string getRedisUrl() const;
     std::string getRedisChannel() const;
+    SourceType getSourceType() const;
 
   private:
     GridConfig grid_;
@@ -36,4 +38,5 @@ class Configuration
     std::string coordinateSystem_;
     std::string redisUrl_;
     std::string redisChannel_;
+    SourceType sourceType_;
 };
