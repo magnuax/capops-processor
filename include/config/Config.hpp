@@ -25,6 +25,8 @@ class Configuration
     void load(const std::string &path);
     int getProtobufVersion() const;
     std::string getCoordinateSystem() const;
+    std::string getRedisUrl() const;
+    std::string getRedisChannel() const;
 
   private:
     GridConfig grid_;
@@ -32,4 +34,6 @@ class Configuration
     std::unordered_map<WeatherSeverity, double> weatherFactors_;
     int protobufVersion_;
     std::string coordinateSystem_;
+    std::string redisUrl_;
+    std::string redisChannel_;
 };

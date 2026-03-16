@@ -1,9 +1,10 @@
 #include "publish/RedisPublisher.hpp"
 #include "publish/ProtoMapper.hpp"
 
-RedisPublisher::RedisPublisher(const Configuration &config) : config_(config)
+RedisPublisher::RedisPublisher(const Configuration &config)
+    : config_(config), redis_(config.getRedisUrl()), channel_(config.getRedisChannel()),
+      grid_(config_.grid())
 {
-    grid_ = config_.grid();
 }
 
 void RedisPublisher::publish(const ProcessingResult &result)
@@ -15,9 +16,8 @@ void RedisPublisher::publish(const ProcessingResult &result)
 
     if (!ok)
     {
-        throw std::runtime_error("Failed to serialize FlightDataProto");
+        throw std::runtime_error("Failed to serialize FlightDataProtof");
     }
 
-    std::cout << "Serialized protobuf size: " << serialized.size() << std::endl;
-    std::cout << proto.DebugString() << std::endl;
+    redis_.publish(channel_, serialized);
 }
