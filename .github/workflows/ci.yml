@@ -50,7 +50,6 @@ jobs:
           -G Ninja
           -DCMAKE_BUILD_TYPE=Release
           -DBUILD_TESTING=ON
-          -DENABLE_REDIS=OFF
 
       - name: Build
         run: cmake --build build
