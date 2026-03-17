@@ -4,6 +4,7 @@
 #include "domain/types/WeatherSeverity.hpp"
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 struct GridConfig
 {
@@ -29,6 +30,8 @@ class Configuration
     std::string getRedisUrl() const;
     std::string getRedisChannel() const;
     SourceType getSourceType() const;
+    int getNumFlights() const;
+    std::vector<double> getSortedWeatherLevels() const;
 
   private:
     GridConfig grid_;
@@ -39,4 +42,5 @@ class Configuration
     std::string redisUrl_;
     std::string redisChannel_;
     SourceType sourceType_;
+    int numFlights_;
 };
