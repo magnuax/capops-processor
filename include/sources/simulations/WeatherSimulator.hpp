@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "config/Config.hpp"
-#include "domain/types/WeatherSeverity.hpp"
 #include "domain/types/Position.hpp"
+#include "domain/types/WeatherSeverity.hpp"
 
 class WeatherSimulator
 {
@@ -25,7 +25,7 @@ class WeatherSimulator
     void tick(double timeStep);
 
     void setWeatherPattern(int row, int col, double normalizedSeverity);
-    
+
     void setWeatherPattern(int row, int col, WeatherPattern pattern);
 
     static WeatherPattern constant(double normalizedSeverity);

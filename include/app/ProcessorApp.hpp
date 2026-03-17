@@ -3,8 +3,7 @@
 class ProcessorApp
 {
   public:
-    ProcessorApp() {};
-    void run();
+    ProcessorApp() = default;
 
-  private:
+    void run();
 };

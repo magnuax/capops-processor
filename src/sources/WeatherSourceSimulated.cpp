@@ -1,8 +1,7 @@
 
 #include "sources/WeatherSourceSimulated.hpp"
 
-WeatherSourceSimulated::WeatherSourceSimulated(WeatherSimulator &simulator)
-    : simulator_(simulator)
+WeatherSourceSimulated::WeatherSourceSimulated(WeatherSimulator &simulator) : simulator_(simulator)
 {
 }
 
@@ -25,5 +24,4 @@ WeatherSeverity WeatherSourceSimulated::getWeatherSeverity(Position coordinates)
         severity = WeatherSeverity::EXTREME;
 
     return severity;
-
 }

@@ -1,6 +1,6 @@
 
-#include "domain/Track.hpp"
 #include "sources/TrackSourceSimulated.hpp"
+#include "domain/Track.hpp"
 #include <cmath>
 #include <utility>
 

@@ -30,7 +30,6 @@ double WeatherSimulator::getNormalizedSeverity(int row, int col)
     return normalizedSeverities_[getId(row, col)];
 }
 
-
 void WeatherSimulator::initializeSectors()
 {
     const int numRows = gridConfig_.rows;
