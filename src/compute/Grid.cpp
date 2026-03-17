@@ -46,6 +46,17 @@ int Grid::determineSector(const Position &position) const
     return row * config_.cols + col;
 }
 
+Position Grid::sectorCenter(int sectorId) const
+{
+    int r = row(sectorId);
+    int c = column(sectorId);
+
+    double lat = config_.minLat + (r + 0.5) * cellHeightDeg_;
+    double lon = config_.minLon + (c + 0.5) * cellWidthDeg_;
+
+    return Position{lat, lon};
+}
+
 int Grid::rows() const
 {
     return config_.rows;
