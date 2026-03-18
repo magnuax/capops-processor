@@ -28,7 +28,7 @@ std::string stripComment(const std::string &s)
         return s;
     return s.substr(0, pos);
 }
-} // namespace
+} 
 
 Configuration::Configuration(const std::string &path)
 {
