@@ -142,13 +142,26 @@ void Configuration::load(const std::string &path)
         {
             if (key == "numFlights")
                 numFlights_ = std::stoi(value);
+            if (key == "timestepSize")
+                timestepSize_ = std::stod(value);
         }
+                else if (currentSection == "execution")
+        {
+            if (key == "loopIntervalMs")
+                loopIntervalMs_ = std::stoi(value);
+        }
+
     }
 }
 
 int Configuration::getProtobufVersion() const
 {
     return protobufVersion_;
+}
+
+int Configuration::getLoopInterval() const
+{
+    return loopIntervalMs_;
 }
 
 std::string Configuration::getCoordinateSystem() const
@@ -176,16 +189,19 @@ int Configuration::getNumFlights() const
     return numFlights_;
 }
 
+double Configuration::getTimestepSize() const
+{
+    return timestepSize_;
+}
+
+
 std::vector<std::pair<WeatherSeverity, double>> Configuration::getSortedWeatherLevels() const
 {
     std::vector<std::pair<WeatherSeverity, double>> levels(weatherFactors_.begin(),
                                                            weatherFactors_.end());
 
     std::sort(levels.begin(), levels.end(),
-              [](const auto &a, const auto &b)
-              {
-                  return a.second < b.second; 
-              });
+              [](const auto &a, const auto &b) { return a.second < b.second; });
 
     return levels;
 }

@@ -41,8 +41,8 @@ void ProcessorApp::run()
     ComputeData computeData(config);
     RedisPublisher publisher(config);
 
-    constexpr double timeStep = 1.0;
-    constexpr auto sleepDuration = std::chrono::milliseconds(1000);
+    double timeStep = config.getTimestepSize();
+    auto sleepDuration = std::chrono::milliseconds(config.getLoopInterval());
 
     while (true)
     {

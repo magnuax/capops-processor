@@ -32,6 +32,8 @@ class Configuration
     SourceType getSourceType() const;
     int getNumFlights() const;
     std::vector<std::pair<WeatherSeverity, double>> getSortedWeatherLevels() const;
+    double getTimestepSize() const;
+    int getLoopInterval() const; 
 
   private:
     GridConfig grid_;
@@ -43,4 +45,6 @@ class Configuration
     std::string redisChannel_;
     SourceType sourceType_;
     int numFlights_;
+    double timestepSize_;
+    int loopIntervalMs_; 
 };
