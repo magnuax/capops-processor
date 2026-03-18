@@ -10,6 +10,7 @@ class Grid
     int sectorCount() const;
     bool isInside(const Position &position) const;
     int determineSector(const Position &position) const;
+    Position sectorCenter(int sectorId) const;
 
     int rows() const;
     int cols() const;

@@ -1,8 +1,10 @@
 #pragma once
 
+#include "domain/types/SourceType.hpp"
 #include "domain/types/WeatherSeverity.hpp"
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 struct GridConfig
 {
@@ -27,6 +29,11 @@ class Configuration
     std::string getCoordinateSystem() const;
     std::string getRedisUrl() const;
     std::string getRedisChannel() const;
+    SourceType getSourceType() const;
+    int getNumFlights() const;
+    std::vector<std::pair<WeatherSeverity, double>> getSortedWeatherLevels() const;
+    double getTimestepSize() const;
+    int getLoopInterval() const; 
 
   private:
     GridConfig grid_;
@@ -36,4 +43,8 @@ class Configuration
     std::string coordinateSystem_;
     std::string redisUrl_;
     std::string redisChannel_;
+    SourceType sourceType_;
+    int numFlights_;
+    double timestepSize_;
+    int loopIntervalMs_; 
 };

@@ -11,6 +11,5 @@ class WeatherSourceSimulated : public IWeatherSource
     WeatherSeverity getWeatherSeverity(Position coordinates) override;
 
   private:
-
     WeatherSimulator &simulator_;
 };

@@ -1,6 +1,7 @@
 
-#include "domain/Track.hpp"
 #include "sources/TrackSourceSimulated.hpp"
+#include "domain/Track.hpp"
+#include "utils/time/IsoTimestamp.hpp"
 #include <cmath>
 #include <utility>
 
@@ -19,7 +20,7 @@ std::optional<Track> TrackSourceSimulated::getTrack(const std::string &icao) con
     auto velSim = simulator_.getVelocity(icao);
     auto posSim = simulator_.getPosition(icao);
 
-    std::string timestamp = "1970-01-01T00:00:00Z";
+    std::string timestamp = createIsoTimestamp();
     Position position{posSim.first, posSim.second};
     double altitudeMeters = -1;
     double groundSpeedKnots = simulator_.getSpeed(icao);

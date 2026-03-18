@@ -1,29 +1,24 @@
 
 #include "sources/WeatherSourceSimulated.hpp"
 
-WeatherSourceSimulated::WeatherSourceSimulated(WeatherSimulator &simulator)
-    : simulator_(simulator)
+#include <iostream>
+
+WeatherSourceSimulated::WeatherSourceSimulated(WeatherSimulator &simulator) : simulator_(simulator)
 {
 }
 
 WeatherSeverity WeatherSourceSimulated::getWeatherSeverity(Position coordinates)
 {
     double normalizedSeverity = simulator_.getNormalizedSeverity(coordinates);
+    const auto &weatherLevels = simulator_.getWeatherLevels();
 
-    WeatherSeverity severity;
+    for (const auto &[severity, threshold] : weatherLevels)
+    {
+        if (normalizedSeverity <= threshold)
+        {
+            return severity;
+        }
+    }
 
-    if (normalizedSeverity < 0.25)
-        severity = WeatherSeverity::OK;
-
-    else if (normalizedSeverity < 0.5)
-        severity = WeatherSeverity::DEGRADED;
-
-    else if (normalizedSeverity < 0.75)
-        severity = WeatherSeverity::SEVERE;
-
-    else
-        severity = WeatherSeverity::EXTREME;
-
-    return severity;
-
+    return weatherLevels.back().first;
 }

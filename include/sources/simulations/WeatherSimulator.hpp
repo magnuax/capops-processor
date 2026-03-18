@@ -2,13 +2,14 @@
 
 #include <atomic>
 #include <functional>
+#include <random>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "config/Config.hpp"
-#include "domain/types/WeatherSeverity.hpp"
 #include "domain/types/Position.hpp"
+#include "domain/types/WeatherSeverity.hpp"
 
 class WeatherSimulator
 {
@@ -16,7 +17,8 @@ class WeatherSimulator
     using WeatherPattern = std::function<double(double)>;
     using SectorID = std::string;
 
-    WeatherSimulator(GridConfig config);
+    WeatherSimulator(GridConfig config,
+                     const std::vector<std::pair<WeatherSeverity, double>> &weatherLevels);
 
     void start();
 
@@ -24,8 +26,10 @@ class WeatherSimulator
 
     void tick(double timeStep);
 
+    void generateRandomWeatherPatterns();
+
     void setWeatherPattern(int row, int col, double normalizedSeverity);
-    
+
     void setWeatherPattern(int row, int col, WeatherPattern pattern);
 
     static WeatherPattern constant(double normalizedSeverity);
@@ -34,10 +38,15 @@ class WeatherSimulator
 
     double getNormalizedSeverity(int row, int col);
 
+    std::vector<std::pair<WeatherSeverity, double>> getWeatherLevels() const;
+
   private:
     void initializeSectors();
-
+    WeatherPattern makeRandomWeatherPattern();
+    int chooseNextIndex(int currentIndex);
     SectorID getId(int row, int col);
+
+    std::mt19937 rng_;
 
     GridConfig gridConfig_;
     std::vector<SectorID> sectorIds_;
@@ -47,6 +56,7 @@ class WeatherSimulator
     std::atomic<bool> isRunning_ = false;
     double currentTime_;
     double timeStep_;
+    std::vector<std::pair<WeatherSeverity, double>> weatherLevels_;
 };
 
 /*
