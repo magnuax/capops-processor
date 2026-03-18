@@ -31,7 +31,7 @@ class Configuration
     std::string getRedisChannel() const;
     SourceType getSourceType() const;
     int getNumFlights() const;
-    std::vector<double> getSortedWeatherLevels() const;
+    std::vector<std::pair<WeatherSeverity, double>> getSortedWeatherLevels() const;
 
   private:
     GridConfig grid_;

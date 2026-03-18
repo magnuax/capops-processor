@@ -176,16 +176,16 @@ int Configuration::getNumFlights() const
     return numFlights_;
 }
 
-std::vector<double> Configuration::getSortedWeatherLevels() const
+std::vector<std::pair<WeatherSeverity, double>> Configuration::getSortedWeatherLevels() const
 {
-    std::vector<double> levels;
+    std::vector<std::pair<WeatherSeverity, double>> levels(weatherFactors_.begin(),
+                                                           weatherFactors_.end());
 
-    for (const auto &[severity, value] : weatherFactors_)
-    {
-        levels.push_back(value);
-    }
-
-    std::sort(levels.begin(), levels.end(), std::greater<>());
+    std::sort(levels.begin(), levels.end(),
+              [](const auto &a, const auto &b)
+              {
+                  return a.second < b.second; 
+              });
 
     return levels;
 }
