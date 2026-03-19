@@ -22,13 +22,13 @@ std::optional<Track> TrackSourceSimulated::getTrack(const std::string &icao) con
 
     std::string timestamp = createIsoTimestamp();
     Position position{posSim.first, posSim.second};
-    double altitudeMeters = -1;
+    double altitudeFeet = -1;
     double groundSpeedKnots = simulator_.getSpeed(icao);
     double verticalSpeed = -1;
     double headingDegrees = std::atan2(velSim.second, velSim.first) * 180 / M_PI;
     double groundTrackDegrees = headingDegrees;
 
-    return Track(icao, timestamp, position, altitudeMeters, groundSpeedKnots, verticalSpeed,
+    return Track(icao, timestamp, position, altitudeFeet, groundSpeedKnots, verticalSpeed,
                  headingDegrees, groundTrackDegrees);
 }
 

@@ -16,7 +16,7 @@
 
 WeatherSourceOpenMeteo::WeatherSourceOpenMeteo()
 {
-    apiBaseUrl_ = "https://api.open-meteo.com/v1/forecast?";
+    apiBaseUrl_ = "https://api.open-meteo.com/v1/forecast";
 }
 
 WeatherSeverity WeatherSourceOpenMeteo::getWeatherSeverity(Position coordinates)
@@ -100,14 +100,14 @@ WeatherSourceOpenMeteo::ApiResponse WeatherSourceOpenMeteo::fetchWeatherData(Pos
 {
 
     QString wind_speed = QString("wind_speed_%1").arg(currentRange_);
-    QString wind_gusts = QString("wind_gusts_%1").arg(currentRange_);
+    QString wind_gusts = QString("wind_gusts_10");
 
     QString timezone = "auto";
 
-    QStringList arguments = {"weather_code", "temperature",   wind_speed, wind_gusts,
-                             "visibility",   "precipitation", "snowfall"};
+    QStringList arguments = {"weather_code", "temperature_2m", wind_speed, wind_gusts,
+                             "visibility",   "precipitation",  "snowfall"};
 
-    QString requestURL = apiBaseUrl_ + "&latitude=" + QString::number(coordinates.latDeg) +
+    QString requestURL = apiBaseUrl_ + "?latitude=" + QString::number(coordinates.latDeg) +
                          "&longitude=" + QString::number(coordinates.lonDeg) +
                          "&current=" + arguments.join(",") + "&timezone=" + timezone;
 
