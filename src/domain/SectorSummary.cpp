@@ -59,10 +59,10 @@ void SectorSummary::decreaseLocalAircraftCount()
     }
 }
 
-WeatherSeverity SectorSummary::getWeatherSeverity() const{
-  return weatherSeverity_; 
+WeatherSeverity SectorSummary::getWeatherSeverity() const
+{
+    return weatherSeverity_;
 }
-
 
 bool SectorSummary::isAtRisk()
 {
@@ -84,13 +84,13 @@ bool SectorSummary::isCongested()
 
 void SectorSummary::updateState()
 {
-    if (isAtRisk())
-    {
-        riskSeverity_ = SectorState::AT_RISK;
-    }
-    else if (isCongested())
+    if (isCongested())
     {
         riskSeverity_ = SectorState::CONGESTED;
+    }
+    else if (isAtRisk())
+    {
+        riskSeverity_ = SectorState::AT_RISK;
     }
     else
     {
@@ -109,7 +109,7 @@ void SectorSummary::updateWeather(WeatherSeverity weatherSeverity, double weathe
     weatherFactor_ = weatherFactor;
 }
 
-WeatherSeverity SectorSummary::getWeatherSeverity() const
+double SectorSummary::getWeatherFactor() const
 {
-    return weatherSeverity_;
+    return weatherFactor_;
 }
