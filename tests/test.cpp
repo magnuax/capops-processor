@@ -10,14 +10,15 @@
 #include "domain/types/SectorState.hpp"
 #include "domain/types/WeatherSeverity.hpp"
 #include "ingest/IngestService.hpp"
+#include "proto/FlightData.pb.h"
 #include "publish/ProtoMapper.hpp"
 #include "publish/RedisPublisher.hpp"
-#include "proto/FlightData.pb.h"
-#include "sources/simulations/RadarSimulator.hpp"
-#include "sources/simulations/WeatherSimulator.hpp"
 #include "sources/TrackSourceSimulated.hpp"
 #include "sources/WeatherSourceOpenMeteo.hpp"
 #include "sources/WeatherSourceSimulated.hpp"
+#include "sources/simulations/RadarSimulator.hpp"
+#include "sources/simulations/WeatherSimulator.hpp"
+#include <QCoreApplication>
 #include <algorithm>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_string.hpp>
@@ -25,8 +26,6 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <QCoreApplication>
-#include <QCoreApplication>
 
 // Helper function to create a test configuration
 Configuration createTestConfig()
@@ -561,10 +560,11 @@ TEST_CASE("WeatherSimulator position to severity mapping")
 TEST_CASE("WeatherSourceOpenMeteo initialization")
 {
     // Initialize Qt if not already done
-    static QCoreApplication* app = nullptr;
-    if (!QCoreApplication::instance()) {
+    static QCoreApplication *app = nullptr;
+    if (!QCoreApplication::instance())
+    {
         int argc = 0;
-        char* argv[] = {nullptr};
+        char *argv[] = {nullptr};
         app = new QCoreApplication(argc, argv);
     }
 
@@ -576,21 +576,22 @@ TEST_CASE("WeatherSourceOpenMeteo initialization")
 TEST_CASE("WeatherSourceOpenMeteo setRange")
 {
     // Initialize Qt if not already done
-    static QCoreApplication* app = nullptr;
-    if (!QCoreApplication::instance()) {
+    static QCoreApplication *app = nullptr;
+    if (!QCoreApplication::instance())
+    {
         int argc = 0;
-        char* argv[] = {nullptr};
+        char *argv[] = {nullptr};
         app = new QCoreApplication(argc, argv);
     }
 
     WeatherSourceOpenMeteo source;
-    
+
     // Test valid ranges
     REQUIRE_NOTHROW(source.setRange("10m"));
     REQUIRE_NOTHROW(source.setRange("80m"));
     REQUIRE_NOTHROW(source.setRange("120m"));
     REQUIRE_NOTHROW(source.setRange("180m"));
-    
+
     // Test invalid range
     REQUIRE_THROWS_AS(source.setRange("50m"), std::invalid_argument);
 }
@@ -602,7 +603,7 @@ TEST_CASE("WeatherSource getWeatherSeverity")
     WeatherSimulator simulator(config.grid(), weatherLevels);
     simulator.generateRandomWeatherPatterns();
     WeatherSourceSimulated source(simulator);
-    
+
     // Test with sector centers from the config grid
     Grid grid(config.grid());
     for (int sectorId = 0; sectorId < std::min(3, grid.sectorCount()); ++sectorId)
@@ -610,10 +611,8 @@ TEST_CASE("WeatherSource getWeatherSeverity")
         Position pos = grid.sectorCenter(sectorId);
         WeatherSeverity severity = source.getWeatherSeverity(pos);
         // Should return one of the valid severities
-        REQUIRE((severity == WeatherSeverity::OK || 
-                 severity == WeatherSeverity::DEGRADED || 
-                 severity == WeatherSeverity::SEVERE || 
-                 severity == WeatherSeverity::EXTREME));
+        REQUIRE((severity == WeatherSeverity::OK || severity == WeatherSeverity::DEGRADED ||
+                 severity == WeatherSeverity::SEVERE || severity == WeatherSeverity::EXTREME));
     }
 }
 
@@ -708,7 +707,7 @@ TEST_CASE("Protobuf serialization round-trip")
 
     // Serialize to protobuf
     FlightDataProto proto = mapToProto(originalResult, config, config.grid());
-    
+
     // Serialize to string
     std::string serialized;
     bool serializeOk = proto.SerializeToString(&serialized);
@@ -761,7 +760,8 @@ TEST_CASE("Protobuf serialization round-trip")
     REQUIRE(deserializedProto.sectorsummarydata().maxlongitude() == config.grid().maxLon);
     REQUIRE(deserializedProto.sectorsummarydata().sectorsummaries_size() == 2);
 
-    const SectorSummaryProto &summaryProto1 = deserializedProto.sectorsummarydata().sectorsummaries(0);
+    const SectorSummaryProto &summaryProto1 =
+        deserializedProto.sectorsummarydata().sectorsummaries(0);
     REQUIRE(summaryProto1.sectorid() == 0);
     REQUIRE(summaryProto1.row() == 0);
     REQUIRE(summaryProto1.column() == 0);
@@ -771,7 +771,8 @@ TEST_CASE("Protobuf serialization round-trip")
     REQUIRE(summaryProto1.localaircraftbasecapacity() == 100);
     REQUIRE(summaryProto1.localaircrafteffectivecapacity() == 100);
 
-    const SectorSummaryProto &summaryProto2 = deserializedProto.sectorsummarydata().sectorsummaries(1);
+    const SectorSummaryProto &summaryProto2 =
+        deserializedProto.sectorsummarydata().sectorsummaries(1);
     REQUIRE(summaryProto2.sectorid() == 1);
     REQUIRE(summaryProto2.weatherseverity() == "SEVERE");
     REQUIRE(summaryProto2.riskseverity() == "AT_RISK");
@@ -988,8 +989,7 @@ TEST_CASE("End-to-end: Simulated data is published to Redis")
     Grid grid(config.grid());
 
     // Create weather simulator and set some patterns
-    std::vector<std::pair<WeatherSeverity, double>> weatherLevels =
-        config.getSortedWeatherLevels();
+    std::vector<std::pair<WeatherSeverity, double>> weatherLevels = config.getSortedWeatherLevels();
     WeatherSimulator weatherSimulator(config.grid(), weatherLevels);
 
     // Set constant weather patterns in specific sectors
@@ -1089,10 +1089,11 @@ TEST_CASE("End-to-end: Simulated data is published to Redis")
 TEST_CASE("Integration test: Full processor workflow with API sources")
 {
     // Initialize Qt if not already done for API sources
-    static QCoreApplication* app = nullptr;
-    if (!QCoreApplication::instance()) {
+    static QCoreApplication *app = nullptr;
+    if (!QCoreApplication::instance())
+    {
         int argc = 0;
-        char* argv[] = {nullptr};
+        char *argv[] = {nullptr};
         app = new QCoreApplication(argc, argv);
     }
 
@@ -1169,4 +1170,3 @@ TEST_CASE("Integration test: Full processor workflow with API sources")
         REQUIRE(grid.isInside(track.getPosition()) == true);
     }
 }
-

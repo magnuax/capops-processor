@@ -33,7 +33,7 @@ class Configuration
     int getNumFlights() const;
     std::vector<std::pair<WeatherSeverity, double>> getSortedWeatherLevels() const;
     double getTimestepSize() const;
-    int getLoopInterval() const; 
+    int getLoopInterval() const;
 
   private:
     GridConfig grid_;
@@ -46,5 +46,5 @@ class Configuration
     SourceType sourceType_;
     int numFlights_;
     double timestepSize_;
-    int loopIntervalMs_; 
+    int loopIntervalMs_;
 };

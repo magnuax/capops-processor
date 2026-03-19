@@ -7,7 +7,7 @@ class Track
 {
 
   public:
-    Track(std::string icao, std::string timestamp, Position position, double altitudeMeters,
+    Track(std::string icao, std::string timestamp, Position position, double altitudeFeet,
           double groundSpeedKnots, double verticalSpeedFeetPerMinute, double headingDegrees,
           double groundTrackDegrees);
     std::string getIcao() const;
@@ -15,7 +15,7 @@ class Track
     Position getPosition() const;
     double getHeadingDegrees() const;
     double getGroundTrackDegrees() const;
-    double getAltitudeMeters() const;
+    double getAltitudeFeet() const;
     double getGroundSpeedKnots() const;
     double getVerticalSpeedFeetPerMinute() const;
 
@@ -23,7 +23,7 @@ class Track
     std::string icao_;
     std::string timestamp_;
     Position position_;
-    double altitudeMeters_;
+    double altitudeFeet_;
     double groundSpeedKnots_;
     double verticalSpeedFeetPerMinute_;
     double headingDegrees_;

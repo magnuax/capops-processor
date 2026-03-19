@@ -1,10 +1,10 @@
 #include "domain/Track.hpp"
 
-Track::Track(std::string icao, std::string timestamp, Position position, double altitudeMeters,
+Track::Track(std::string icao, std::string timestamp, Position position, double altitudeFeet,
              double groundSpeedKnots, double verticalSpeedFeetPerMinute, double headingDegrees,
              double groundTrackDegrees)
     : icao_(std::move(icao)), timestamp_(std::move(timestamp)), position_(position),
-      altitudeMeters_(altitudeMeters), groundSpeedKnots_(groundSpeedKnots),
+      altitudeFeet_(altitudeFeet), groundSpeedKnots_(groundSpeedKnots),
       verticalSpeedFeetPerMinute_(verticalSpeedFeetPerMinute), headingDegrees_(headingDegrees),
       groundTrackDegrees_(groundTrackDegrees)
 {
@@ -35,9 +35,9 @@ double Track::getGroundTrackDegrees() const
     return groundTrackDegrees_;
 }
 
-double Track::getAltitudeMeters() const
+double Track::getAltitudeFeet() const
 {
-    return altitudeMeters_;
+    return altitudeFeet_;
 }
 
 double Track::getGroundSpeedKnots() const

@@ -8,7 +8,7 @@ message FlightDataProto {
 }
 
 message MetadataProto {
-  int32 version = 1; 
+  int32 version = 1;
   string timestamp = 2;
 }
 
@@ -49,7 +49,7 @@ message SectorSummaryProto {
 }
 
 message TrackDataProto {
-  int32 totalAircraftsCount = 1;
+  int32 totalAircraftCount = 1;
   string coordinateSystem = 2;
   repeated TrackProto tracks = 3;
 }
@@ -66,7 +66,7 @@ message TrackProto {
 message PositionProto {
   double latitudeDegrees = 1;
   double longitudeDegrees = 2;
-  double altitudeMeters = 3;
+  double altitudeFeet = 3;
 }
 
 message VelocityProto {

@@ -49,7 +49,7 @@ TrackProto mapToProto(const Track &track)
     PositionProto *position = proto.mutable_position();
     position->set_latitudedegrees(track.getPosition().latDeg);
     position->set_longitudedegrees(track.getPosition().lonDeg);
-    position->set_altitudemeters(track.getAltitudeMeters());
+    position->set_altitudefeet(track.getAltitudeFeet());
 
     VelocityProto *velocity = proto.mutable_velocity();
     velocity->set_groundspeedknots(track.getGroundSpeedKnots());
@@ -92,7 +92,7 @@ FlightDataProto mapToProto(const ProcessingResult &result, const Configuration &
 
     // Tracks
     TrackDataProto *trackData = proto.mutable_trackdata();
-    trackData->set_totalaircraftscount(static_cast<int>(result.tracks.size()));
+    trackData->set_totalaircraftcount(static_cast<int>(result.tracks.size()));
     trackData->set_coordinatesystem(config.getCoordinateSystem());
 
     for (const auto &track : result.tracks)

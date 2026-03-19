@@ -1,5 +1,7 @@
 #pragma once
 #include "sources/interfaces/IWeatherSource.hpp"
+#include <QNetworkAccessManager>
+#include <QString>
 
 class WeatherSourceOpenMeteo : public IWeatherSource
 {
@@ -36,7 +38,7 @@ class WeatherSourceOpenMeteo : public IWeatherSource
     ApiResponse apiResponse_;
 
     std::vector<QString> validRanges_ = {"10m", "80m", "120m", "180m"};
-    QString currentRange_ = "80m";
+    QString currentRange_ = "10m";
 
     ApiResponse fetchWeatherData(Position coordinates);
 
