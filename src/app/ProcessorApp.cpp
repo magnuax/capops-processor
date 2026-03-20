@@ -76,6 +76,7 @@ void ProcessorApp::initializeSources(const Configuration &config)
 
     if (config.getSourceType() == SourceType::Api)
     {
+
         auto openSky = std::make_unique<TrackSourceOpenSky>();
         openSky->setRegion(config.grid());
         trackSource_ = std::move(openSky);
@@ -89,6 +90,7 @@ void ProcessorApp::initializeSources(const Configuration &config)
 
 void ProcessorApp::tickSimulators(double timeStep)
 {
+
     radarSimulator_->tick(timeStep);
     weatherSimulator_->tick(timeStep);
 }
