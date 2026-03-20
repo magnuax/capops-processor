@@ -15,6 +15,7 @@
 #include "publish/RedisPublisher.hpp"
 #include "sources/TrackSourceSimulated.hpp"
 #include "sources/WeatherSourceOpenMeteo.hpp"
+#include "sources/TrackSourceOpenSky.hpp"
 #include "sources/WeatherSourceSimulated.hpp"
 #include "sources/simulations/RadarSimulator.hpp"
 #include "sources/simulations/WeatherSimulator.hpp"
