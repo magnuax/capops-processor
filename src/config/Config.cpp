@@ -28,7 +28,7 @@ std::string stripComment(const std::string &s)
         return s;
     return s.substr(0, pos);
 }
-} 
+} // namespace
 
 Configuration::Configuration(const std::string &path)
 {
@@ -145,12 +145,11 @@ void Configuration::load(const std::string &path)
             if (key == "timestepSize")
                 timestepSize_ = std::stod(value);
         }
-                else if (currentSection == "execution")
+        else if (currentSection == "execution")
         {
             if (key == "loopIntervalMs")
                 loopIntervalMs_ = std::stoi(value);
         }
-
     }
 }
 
@@ -193,7 +192,6 @@ double Configuration::getTimestepSize() const
 {
     return timestepSize_;
 }
-
 
 std::vector<std::pair<WeatherSeverity, double>> Configuration::getSortedWeatherLevels() const
 {

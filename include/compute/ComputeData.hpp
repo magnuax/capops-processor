@@ -19,9 +19,11 @@ class ComputeData
     void handleTrackUpdate(const Track &track);
     void handleWeatherUpdate(const WeatherCell &weatherCell);
     ProcessingResult collectProcessingResult();
-    void evaluateSectorState(int sectorId, const std::string &timestamp);
 
   private:
+    void evaluateSectorState(int sectorId, const std::string &timestamp);
+    void removeTrack(std::string icao);
+
     std::unordered_map<std::string, Track> activeTracksByIcao_;
     std::unordered_map<int, SectorSummary> sectorSummariesById_;
     std::deque<RiskEvent> pendingRiskEvents_;

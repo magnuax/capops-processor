@@ -6,6 +6,7 @@
 #include "domain/types/Position.hpp"
 #include "domain/types/ProcessingResult.hpp"
 #include <deque>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -18,9 +19,9 @@ int riskLevel(SectorState state)
     {
     case SectorState::NORMAL:
         return 0;
-    case SectorState::CONGESTED:
-        return 1;
     case SectorState::AT_RISK:
+        return 1;
+    case SectorState::CONGESTED:
         return 2;
     }
 
@@ -76,9 +77,37 @@ void ComputeData::initializeSectors()
     }
 }
 
+void ComputeData::removeTrack(std::string icao)
+{
+    auto currentTrack = activeTracksByIcao_.find(icao);
+
+    if (currentTrack == activeTracksByIcao_.end())
+    {
+        return;
+    }
+
+    const Track &track = currentTrack->second;
+    int sectorId = grid_.determineSector(track.getPosition());
+
+    if (sectorId != -1)
+    {
+        sectorSummariesById_.at(sectorId).decreaseLocalAircraftCount();
+        evaluateSectorState(sectorId, track.getTimestamp());
+    }
+
+    activeTracksByIcao_.erase(currentTrack);
+}
+
 void ComputeData::handleTrackUpdate(const Track &newTrack)
 {
     int newSectorId = grid_.determineSector(newTrack.getPosition());
+
+    if (newSectorId == -1)
+    {
+        removeTrack(newTrack.getIcao());
+        return;
+    }
+
     auto currentTrack = activeTracksByIcao_.find(newTrack.getIcao());
     std::string time = newTrack.getTimestamp();
 
@@ -113,6 +142,7 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
 
 void ComputeData::handleWeatherUpdate(const WeatherCell &weatherCell)
 {
+
     int sectorId = weatherCell.getSectorId();
     WeatherSeverity severity = weatherCell.getWeatherSeverity();
     double factor = config_.weatherFactor(severity);

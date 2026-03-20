@@ -16,6 +16,7 @@ static constexpr double MS_TO_FPM = 196.850;
 
 TrackSourceOpenSky::TrackSourceOpenSky() : ITrackSource()
 {
+    networkManager_ = new QNetworkAccessManager();
 }
 
 void TrackSourceOpenSky::setRegion(GridConfig config)
