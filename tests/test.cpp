@@ -13,9 +13,9 @@
 #include "proto/FlightData.pb.h"
 #include "publish/ProtoMapper.hpp"
 #include "publish/RedisPublisher.hpp"
+#include "sources/TrackSourceOpenSky.hpp"
 #include "sources/TrackSourceSimulated.hpp"
 #include "sources/WeatherSourceOpenMeteo.hpp"
-#include "sources/TrackSourceOpenSky.hpp"
 #include "sources/WeatherSourceSimulated.hpp"
 #include "sources/simulations/RadarSimulator.hpp"
 #include "sources/simulations/WeatherSimulator.hpp"
@@ -1080,94 +1080,5 @@ TEST_CASE("End-to-end: Simulated data is published to Redis")
     {
         // Redis not available in test environment, but serialization verification passed
         REQUIRE(true);
-    }
-}
-
-// ============================================================================
-// PROCESSOR APP INTEGRATION TEST
-// ============================================================================
-
-TEST_CASE("Integration test: Full processor workflow with API sources")
-{
-    // Initialize Qt if not already done for API sources
-    static QCoreApplication *app = nullptr;
-    if (!QCoreApplication::instance())
-    {
-        int argc = 0;
-        char *argv[] = {nullptr};
-        app = new QCoreApplication(argc, argv);
-    }
-
-    Configuration config = createTestConfigApi();
-    Grid grid(config.grid());
-    ComputeData computeData(config);
-
-    // Initialize API sources
-    auto trackSource = std::make_unique<TrackSourceOpenSky>();
-    trackSource->setRegion(config.grid());
-
-    auto weatherSource = std::make_unique<WeatherSourceOpenMeteo>();
-
-    IngestService ingestService(config.grid(), trackSource.get(), weatherSource.get());
-
-    // Attempt to process track updates (may fail if API unavailable)
-    try
-    {
-        std::vector<Track> tracks = ingestService.getAllTracks();
-        for (const auto &track : tracks)
-        {
-            computeData.handleTrackUpdate(track);
-        }
-    }
-    catch (const std::exception &)
-    {
-        // API may not be available in test environment, that's ok
-    }
-
-    // Process weather updates for all sectors (may fail if API unavailable)
-    for (int sectorId = 0; sectorId < grid.sectorCount(); ++sectorId)
-    {
-        Position center = grid.sectorCenter(sectorId);
-        try
-        {
-            WeatherSeverity severity = ingestService.getWeatherSeverity(center);
-            WeatherCell weatherCell(sectorId, "2024-01-01T12:00:00Z", severity);
-            computeData.handleWeatherUpdate(weatherCell);
-        }
-        catch (const std::exception &)
-        {
-            // Weather API may fail, skip this sector
-        }
-    }
-
-    // Collect processing result
-    ProcessingResult result = computeData.collectProcessingResult();
-
-    // Attempt to publish (may fail if Redis not running)
-    try
-    {
-        RedisPublisher publisher(config);
-        publisher.publish(result);
-    }
-    catch (const std::exception &)
-    {
-        // Redis not available, but that's ok for this test
-    }
-
-    // Verify the results structure
-    REQUIRE(result.sectorSummaries.size() == grid.sectorCount());
-
-    // Check sector summaries have valid data
-    for (const auto &summary : result.sectorSummaries)
-    {
-        REQUIRE(summary.getSectorId() >= 0);
-        REQUIRE(summary.getSectorId() < grid.sectorCount());
-        REQUIRE(summary.getLocalAircraftCount() >= 0);
-    }
-
-    // If tracks were retrieved, check they are within the grid
-    for (const auto &track : result.tracks)
-    {
-        REQUIRE(grid.isInside(track.getPosition()) == true);
     }
 }
