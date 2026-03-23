@@ -100,7 +100,7 @@ WeatherSourceOpenMeteo::ApiResponse WeatherSourceOpenMeteo::fetchWeatherData(Pos
 {
 
     QString wind_speed = QString("wind_speed_%1").arg(currentRange_);
-    QString wind_gusts = QString("wind_gusts_10");
+    QString wind_gusts = QString("wind_gusts_10m");
 
     QString timezone = "auto";
 
