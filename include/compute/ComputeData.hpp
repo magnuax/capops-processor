@@ -2,7 +2,6 @@
 #include "compute/Grid.hpp"
 #include "config/Config.hpp"
 #include "domain/RiskEvent.hpp"
-#include "domain/Sector.hpp"
 #include "domain/SectorSummary.hpp"
 #include "domain/Track.hpp"
 #include "domain/WeatherCell.hpp"
