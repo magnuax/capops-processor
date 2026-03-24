@@ -1,5 +1,6 @@
-#include "config/Config.hpp"
+#include "../test_helpers.hpp"
 #include "compute/Grid.hpp"
+#include "config/Config.hpp"
 #include "domain/RiskEvent.hpp"
 #include "domain/SectorSummary.hpp"
 #include "domain/Track.hpp"
@@ -9,7 +10,6 @@
 #include "domain/types/WeatherSeverity.hpp"
 #include "proto/FlightData.pb.h"
 #include "publish/ProtoMapper.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================

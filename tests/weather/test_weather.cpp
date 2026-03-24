@@ -1,11 +1,11 @@
-#include "config/Config.hpp"
+#include "../test_helpers.hpp"
 #include "compute/Grid.hpp"
+#include "config/Config.hpp"
 #include "domain/types/Position.hpp"
 #include "domain/types/WeatherSeverity.hpp"
 #include "sources/WeatherSourceOpenMeteo.hpp"
 #include "sources/WeatherSourceSimulated.hpp"
 #include "sources/simulations/WeatherSimulator.hpp"
-#include "../test_helpers.hpp"
 #include <QCoreApplication>
 #include <catch2/catch_test_macros.hpp>
 

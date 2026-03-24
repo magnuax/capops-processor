@@ -1,4 +1,5 @@
 #include "domain/SectorSummary.hpp"
+#include <algorithm>
 
 SectorSummary::SectorSummary(int sectorId, int row, int column, std::string timestamp,
                              int localAircraftCount, WeatherSeverity weatherSeverity,
@@ -112,4 +113,23 @@ void SectorSummary::updateWeather(WeatherSeverity weatherSeverity, double weathe
 double SectorSummary::getWeatherFactor() const
 {
     return weatherFactor_;
+}
+
+void SectorSummary::addIcao(const std::string &icao)
+{
+    icao24List_.push_back(icao);
+}
+
+void SectorSummary::removeIcao(const std::string &icao)
+{
+    auto it = std::find(icao24List_.begin(), icao24List_.end(), icao);
+    if (it != icao24List_.end())
+    {
+        icao24List_.erase(it);
+    }
+}
+
+std::vector<std::string> SectorSummary::getIcao24List() const
+{
+    return icao24List_;
 }

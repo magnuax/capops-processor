@@ -1,3 +1,4 @@
+#include "../test_helpers.hpp"
 #include "domain/RiskEvent.hpp"
 #include "domain/SectorSummary.hpp"
 #include "domain/Track.hpp"
@@ -5,7 +6,6 @@
 #include "domain/types/Position.hpp"
 #include "domain/types/SectorState.hpp"
 #include "domain/types/WeatherSeverity.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================

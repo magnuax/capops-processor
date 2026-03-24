@@ -12,8 +12,10 @@ struct GridConfig
     double maxLat;
     double minLon;
     double maxLon;
+    double cellSizeDeg = 1.0;
     int rows;
     int cols;
+    void computeDimensions();
 };
 
 class Configuration

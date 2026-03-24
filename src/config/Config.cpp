@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -33,6 +34,7 @@ std::string stripComment(const std::string &s)
 Configuration::Configuration(const std::string &path)
 {
     load(path);
+    grid_.computeDimensions();
 }
 
 const GridConfig &Configuration::grid() const
@@ -90,10 +92,9 @@ void Configuration::load(const std::string &path)
                 grid_.minLon = std::stod(value);
             else if (key == "maxLon")
                 grid_.maxLon = std::stod(value);
-            else if (key == "rows")
-                grid_.rows = std::stoi(value);
-            else if (key == "cols")
-                grid_.cols = std::stoi(value);
+            else if (key == "cellSizeDeg")
+                grid_.cellSizeDeg = std::stod(value);
+
             else if (key == "coordinateSystem")
                 coordinateSystem_ = value;
         }
@@ -202,4 +203,21 @@ std::vector<std::pair<WeatherSeverity, double>> Configuration::getSortedWeatherL
               [](const auto &a, const auto &b) { return a.second < b.second; });
 
     return levels;
+}
+
+void GridConfig::computeDimensions()
+{
+    double latRange = maxLat - minLat;
+    double lonRange = maxLon - minLon;
+
+    rows = std::max(1, static_cast<int>(std::round(latRange / cellSizeDeg)));
+
+    // Adjust cols for mercator: longitude degrees are shorter at higher latitudes
+    double midLat = (minLat + maxLat) / 2.0;
+    double lonScale = std::cos(midLat * M_PI / 180.0);
+    double effectiveLonRange = lonRange * lonScale;
+    double effectiveLatRange = latRange;
+
+    cols =
+        std::max(1, static_cast<int>(std::round(effectiveLonRange / (effectiveLatRange / rows))));
 }

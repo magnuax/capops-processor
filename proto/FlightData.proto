@@ -46,7 +46,8 @@ message SectorSummaryProto {
   int32 localAircraftCount = 6;
   int32 localAircraftBaseCapacity = 7;
   int32 localAircraftEffectiveCapacity = 8;
-}
+  repeated string icao24List = 9;
+} 
 
 message TrackDataProto {
   int32 totalAircraftCount = 1;

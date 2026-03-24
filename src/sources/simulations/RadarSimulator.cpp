@@ -34,7 +34,7 @@ void RadarSimulator::initializeFlights(int numFlights)
         double latEnd = minLat + latWidth * dist(generator);
         double lonEnd = minLon + lonWidth * dist(generator);
 
-        double speed = 10 * dist(generator); // PLACEHOLDER PREFACTOR
+        double speed = 200 + 100 * dist(generator); // ~390–580 kts
 
         startPositions.push_back({latStart, lonStart});
         endPositions.push_back({latEnd, lonEnd});

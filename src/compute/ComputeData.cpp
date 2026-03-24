@@ -96,6 +96,7 @@ void ComputeData::removeTrack(std::string icao)
     }
 
     activeTracksByIcao_.erase(currentTrack);
+    sectorSummariesById_.at(sectorId).removeIcao(icao);
 }
 
 void ComputeData::handleTrackUpdate(const Track &newTrack)
@@ -123,9 +124,11 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
         if (oldSectorId != newSectorId)
         {
             sectorSummariesById_.at(oldSectorId).decreaseLocalAircraftCount();
+            sectorSummariesById_.at(oldSectorId).removeIcao(newTrack.getIcao());
             evaluateSectorState(oldSectorId, time);
 
             sectorSummariesById_.at(newSectorId).increaseLocalAircraftCount();
+            sectorSummariesById_.at(newSectorId).addIcao(newTrack.getIcao());
             evaluateSectorState(newSectorId, time);
         }
         currentTrack->second = newTrack;
@@ -135,6 +138,7 @@ void ComputeData::handleTrackUpdate(const Track &newTrack)
     else
     {
         sectorSummariesById_.at(newSectorId).increaseLocalAircraftCount();
+        sectorSummariesById_.at(newSectorId).addIcao(newTrack.getIcao());
         evaluateSectorState(newSectorId, time);
         activeTracksByIcao_.insert({newTrack.getIcao(), newTrack});
     }

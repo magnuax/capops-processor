@@ -1,7 +1,7 @@
+#include "../test_helpers.hpp"
 #include "compute/Grid.hpp"
 #include "config/Config.hpp"
 #include "domain/types/Position.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================
@@ -13,10 +13,12 @@ TEST_CASE("Grid initialization and sector counting")
     Configuration config = createTestConfig();
     Grid grid(config.grid());
 
+
+
     // Grid is 3x3
-    REQUIRE(grid.sectorCount() == 9);
-    REQUIRE(grid.rows() == 3);
-    REQUIRE(grid.cols() == 3);
+    REQUIRE(grid.sectorCount() == 200);
+    REQUIRE(grid.rows() == 20);
+    REQUIRE(grid.cols() == 10);
 }
 
 TEST_CASE("Grid position conversion")

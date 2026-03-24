@@ -1,3 +1,4 @@
+#include "../test_helpers.hpp"
 #include "compute/ComputeData.hpp"
 #include "compute/Grid.hpp"
 #include "config/Config.hpp"
@@ -10,7 +11,6 @@
 #include "publish/ProtoMapper.hpp"
 #include "publish/RedisPublisher.hpp"
 #include "sources/simulations/WeatherSimulator.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================
@@ -162,8 +162,8 @@ TEST_CASE("End-to-end: Simulated data is published to Redis")
     }
 
     // Verify sector summaries made it through
-    REQUIRE(publishedData.sectorsummarydata().rowscount() == 3);
-    REQUIRE(publishedData.sectorsummarydata().columnscount() == 3);
+    REQUIRE(publishedData.sectorsummarydata().rowscount() == 20);
+    REQUIRE(publishedData.sectorsummarydata().columnscount() == 10);
 
     // Verify metadata
     REQUIRE(publishedData.metadata().version() == 1);
