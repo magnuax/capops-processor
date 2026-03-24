@@ -110,14 +110,38 @@ void RadarSimulator::tick(double timeStep)
 {
     currentTime_ += timeStep;
 
+    double latWidth = gridConfig_.maxLat - gridConfig_.minLat;
+    double lonWidth = gridConfig_.maxLon - gridConfig_.minLon;
+
     for (const auto &flight : flightIds_)
     {
         FlightPosition pos = flightPositions_.at(flight);
         FlightVelocity vel = flightVelocities_.at(flight);
 
-        flightPositions_[flight] = {pos.first + vel.first * timeStep,
-                                    pos.second + vel.second * timeStep};
+        double newLat = pos.first + vel.first * timeStep;
+        double newLon = pos.second + vel.second * timeStep;
+
+        FlightPosition newPos = enforcePeriodicBoundary({newLat, newLon}, latWidth, lonWidth);
+
+        flightPositions_[flight] = newPos;
     }
+}
+
+RadarSimulator::FlightPosition
+RadarSimulator::enforcePeriodicBoundary(FlightPosition pos, double latWidth, double lonWidth)
+{
+    double newLat = pos.first;
+    double newLon = pos.second;
+
+    newLat = gridConfig_.minLat + std::fmod(newLat - gridConfig_.minLat, latWidth);
+    if (newLat < gridConfig_.minLat)
+        newLat += latWidth;
+
+    newLon = gridConfig_.minLon + std::fmod(newLon - gridConfig_.minLon, lonWidth);
+    if (newLon < gridConfig_.minLon)
+        newLon += lonWidth;
+
+    return {newLat, newLon};
 }
 
 bool RadarSimulator::containsFlight(const FlightID &flightId) const

@@ -38,6 +38,8 @@ class RadarSimulator
   private:
     void initializeFlights();
 
+    FlightPosition enforcePeriodicBoundary(FlightPosition pos, double latWidth, double lonWidth);
+
     std::string getId(int row, int col);
 
     GridConfig gridConfig_;
