@@ -33,7 +33,10 @@ SectorSummaryProto mapToProto(const SectorSummary &summary)
     proto.set_localaircraftcount(summary.getLocalAircraftCount());
     proto.set_localaircraftbasecapacity(static_cast<int>(summary.getBaseCapacity()));
     proto.set_localaircrafteffectivecapacity(static_cast<int>(summary.getEffectiveCapacity()));
-
+    for (const auto &icao : summary.getIcao24List())
+    {
+        proto.add_icao24list(icao);
+    }
     return proto;
 }
 
