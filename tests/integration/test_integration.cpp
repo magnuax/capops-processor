@@ -162,8 +162,8 @@ TEST_CASE("End-to-end: Simulated data is published to Redis")
     }
 
     // Verify sector summaries made it through
-    REQUIRE(publishedData.sectorsummarydata().rowscount() == 3);
-    REQUIRE(publishedData.sectorsummarydata().columnscount() == 3);
+    REQUIRE(publishedData.sectorsummarydata().rowscount() == 20);
+    REQUIRE(publishedData.sectorsummarydata().columnscount() == 10);
 
     // Verify metadata
     REQUIRE(publishedData.metadata().version() == 1);

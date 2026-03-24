@@ -23,6 +23,7 @@ inline Configuration createTestConfig()
     configFile << "maxLon=6.0\n";
     configFile << "rows=3\n";
     configFile << "cols=3\n";
+    configFile << "cellSizeDeg=0.1\n";
     configFile << "coordinateSystem=WGS84\n";
     configFile << "\n";
     configFile << "[capacity]\n";
