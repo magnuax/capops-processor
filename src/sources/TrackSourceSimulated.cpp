@@ -3,6 +3,7 @@
 #include "domain/Track.hpp"
 #include "utils/time/IsoTimestamp.hpp"
 #include <cmath>
+#include <functional>
 #include <utility>
 
 TrackSourceSimulated::TrackSourceSimulated(RadarSimulator &simulator) : simulator_(simulator)
@@ -22,9 +23,15 @@ std::optional<Track> TrackSourceSimulated::getTrack(const std::string &icao) con
 
     std::string timestamp = createIsoTimestamp();
     Position position{posSim.first, posSim.second};
-    double altitudeFeet = -1;
-    double groundSpeedKnots = simulator_.getSpeed(icao);
-    double verticalSpeed = -1;
+    // Derive a deterministic cruise altitude per flight from its ICAO id
+    std::hash<std::string> hasher;
+    double altitudeFeet = 25000.0 + (hasher(icao) % 150) * 100.0;
+
+    // Convert simulator speed (degrees/s) to knots (1 degree ≈ 60 nautical miles)
+    double simSpeed = simulator_.getSpeed(icao);
+    double groundSpeedKnots = simSpeed * 60.0 * 3600.0;
+
+    double verticalSpeed = 0.0;
     double headingDegrees = std::atan2(velSim.second, velSim.first) * 180 / M_PI;
     double groundTrackDegrees = headingDegrees;
 
