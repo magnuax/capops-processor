@@ -1,7 +1,7 @@
+#include "../test_helpers.hpp"
 #include "compute/Grid.hpp"
 #include "config/Config.hpp"
 #include "domain/types/Position.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================

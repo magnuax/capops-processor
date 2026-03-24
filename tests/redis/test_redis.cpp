@@ -1,9 +1,9 @@
+#include "../test_helpers.hpp"
 #include "config/Config.hpp"
+#include "domain/Track.hpp"
 #include "domain/types/Position.hpp"
 #include "domain/types/ProcessingResult.hpp"
-#include "domain/Track.hpp"
 #include "publish/RedisPublisher.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================

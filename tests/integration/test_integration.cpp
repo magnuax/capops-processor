@@ -1,3 +1,4 @@
+#include "../test_helpers.hpp"
 #include "compute/ComputeData.hpp"
 #include "compute/Grid.hpp"
 #include "config/Config.hpp"
@@ -10,7 +11,6 @@
 #include "publish/ProtoMapper.hpp"
 #include "publish/RedisPublisher.hpp"
 #include "sources/simulations/WeatherSimulator.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================

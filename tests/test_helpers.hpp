@@ -4,10 +4,10 @@
 #include "config/Config.hpp"
 #include "domain/SectorSummary.hpp"
 #include "domain/types/ProcessingResult.hpp"
+#include <algorithm>
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
-#include <algorithm>
 
 // Helper function to create a test configuration
 inline Configuration createTestConfig()

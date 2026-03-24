@@ -1,3 +1,4 @@
+#include "../test_helpers.hpp"
 #include "compute/ComputeData.hpp"
 #include "compute/Grid.hpp"
 #include "config/Config.hpp"
@@ -7,7 +8,6 @@
 #include "domain/types/ProcessingResult.hpp"
 #include "domain/types/SectorState.hpp"
 #include "domain/types/WeatherSeverity.hpp"
-#include "../test_helpers.hpp"
 #include <catch2/catch_test_macros.hpp>
 
 // ============================================================================
