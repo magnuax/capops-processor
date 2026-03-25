@@ -82,6 +82,12 @@ void Configuration::load(const std::string &path)
         std::string key = trim(line.substr(0, pos));
         std::string value = trim(line.substr(pos + 1));
 
+        // Env var name: section_key in UPPER_SNAKE_CASE, e.g. GRID_MINLAT
+        std::string envKey = currentSection + "_" + key;                  
+        std::transform(envKey.begin(), envKey.end(), envKey.begin(), ::toupper);
+        if (const char *envVal = std::getenv(envKey.c_str()))
+            value = envVal;
+
         if (currentSection == "grid")
         {
             if (key == "minLat")
