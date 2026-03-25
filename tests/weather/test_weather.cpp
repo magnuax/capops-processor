@@ -83,7 +83,7 @@ TEST_CASE("WeatherSimulator random patterns generation")
     std::vector<std::pair<WeatherSeverity, double>> weatherLevels = config.getSortedWeatherLevels();
 
     WeatherSimulator simulator(config.grid(), weatherLevels);
-    simulator.generateRandomWeatherPatterns();
+    simulator.setRandomWeatherPatterns();
 
     // All sectors should have valid severities
     for (int i = 0; i < config.grid().rows; ++i)
@@ -103,7 +103,7 @@ TEST_CASE("WeatherSimulator position to severity mapping")
     std::vector<std::pair<WeatherSeverity, double>> weatherLevels = config.getSortedWeatherLevels();
 
     WeatherSimulator simulator(config.grid(), weatherLevels);
-    simulator.generateRandomWeatherPatterns();
+    simulator.setRandomWeatherPatterns();
 
     // Test multiple positions within the grid
     for (double lat = config.grid().minLat; lat < config.grid().maxLat; lat += 0.3)
@@ -166,7 +166,7 @@ TEST_CASE("WeatherSource getWeatherSeverity")
     Configuration config = createTestConfig();
     std::vector<std::pair<WeatherSeverity, double>> weatherLevels = config.getSortedWeatherLevels();
     WeatherSimulator simulator(config.grid(), weatherLevels);
-    simulator.generateRandomWeatherPatterns();
+    simulator.setRandomWeatherPatterns();
     WeatherSourceSimulated source(simulator);
 
     // Test with sector centers from the config grid

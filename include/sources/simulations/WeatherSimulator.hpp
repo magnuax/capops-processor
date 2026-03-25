@@ -26,7 +26,9 @@ class WeatherSimulator
 
     void tick(double timeStep);
 
-    void generateRandomWeatherPatterns();
+    void setRandomWeatherPatterns();
+
+    void setHorizontalWavePattern(double frequency, double speed);
 
     void setWeatherPattern(int row, int col, double normalizedSeverity);
 
