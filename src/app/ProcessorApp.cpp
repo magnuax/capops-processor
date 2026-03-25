@@ -20,6 +20,7 @@
 #include "sources/WeatherSourceOpenMeteo.hpp"
 #include "sources/WeatherSourceSimulated.hpp"
 
+#include "utils/WeatherPatternUtils.hpp"
 #include "utils/time/IsoTimestamp.hpp"
 
 #include <chrono>
@@ -67,7 +68,8 @@ void ProcessorApp::initializeSources(const Configuration &config)
 
         weatherSimulator_ =
             std::make_unique<WeatherSimulator>(config.grid(), config.getSortedWeatherLevels());
-        weatherSimulator_->generateRandomWeatherPatterns();
+        // weatherSimulator_->setRandomWeatherPatterns();
+        weatherSimulator_->setHorizontalWavePattern(0.1, 0.05);
 
         trackSource_ = std::make_unique<TrackSourceSimulated>(*radarSimulator_);
         weatherSource_ = std::make_unique<WeatherSourceSimulated>(*weatherSimulator_);

@@ -1,5 +1,7 @@
 
 #include "sources/simulations/WeatherSimulator.hpp"
+#include "utils/WeatherPatternUtils.hpp"
+
 #include <functional>
 #include <iostream>
 #include <random>
@@ -140,13 +142,29 @@ WeatherSimulator::WeatherPattern WeatherSimulator::makeRandomWeatherPattern()
         return weatherLevels_[currentIndex].second;
     };
 }
-void WeatherSimulator::generateRandomWeatherPatterns()
+
+void WeatherSimulator::setRandomWeatherPatterns()
 {
     for (int row = 0; row < gridConfig_.rows; ++row)
     {
         for (int col = 0; col < gridConfig_.cols; ++col)
         {
             setWeatherPattern(row, col, makeRandomWeatherPattern());
+        }
+    }
+}
+
+void WeatherSimulator::setHorizontalWavePattern(double frequency, double speed)
+{
+    int totalCols = gridConfig_.cols;
+
+    for (int row = 0; row < gridConfig_.rows; ++row)
+    {
+        for (int col = 0; col < totalCols; ++col)
+        {
+            double phase = (2.0 * M_PI * col) / totalCols;
+            setWeatherPattern(row, col,
+                              WeatherPatternUtils::horizontalWave(frequency, speed, phase));
         }
     }
 }
