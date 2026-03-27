@@ -1,7 +1,6 @@
 
 #include "sources/WeatherSourceSimulated.hpp"
 
-#include <iostream>
 
 WeatherSourceSimulated::WeatherSourceSimulated(WeatherSimulator &simulator) : simulator_(simulator)
 {

@@ -1,7 +1,6 @@
 
 #include "sources/simulations/WeatherSimulator.hpp"
 #include <functional>
-#include <iostream>
 #include <random>
 #include <stdexcept>
 
