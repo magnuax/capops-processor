@@ -24,7 +24,6 @@
 #include "utils/time/IsoTimestamp.hpp"
 
 #include <chrono>
-#include <iostream>
 #include <stdexcept>
 #include <thread>
 

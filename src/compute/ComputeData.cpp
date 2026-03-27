@@ -6,7 +6,6 @@
 #include "domain/types/Position.hpp"
 #include "domain/types/ProcessingResult.hpp"
 #include <deque>
-#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>

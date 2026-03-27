@@ -3,7 +3,6 @@
 #include "utils/WeatherPatternUtils.hpp"
 
 #include <functional>
-#include <iostream>
 #include <random>
 #include <stdexcept>
 
