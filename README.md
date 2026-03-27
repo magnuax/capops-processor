@@ -59,8 +59,7 @@ The processor reads `configuration.cfg` from the working directory on startup.
 ## Testing
 
 ```bash
-cmake --build build
-ctest --test-dir build --output-on-failure
+./build/backend_tests
 ```
 
 Tests use Catch2 and cover configuration loading, grid computation, domain entities, the data processing pipeline, proto mapping, simulators, risk event detection, and Redis publishing.
