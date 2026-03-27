@@ -34,7 +34,6 @@ Each iteration of the main loop:
 | Ninja | recommended |
 | Qt6 | ≥ 6.8.3 (Core, Network) |
 | Protobuf | 3.x (compiler + libraries) |
-| pkg-config | — |
 
 The following are fetched automatically via CMake `FetchContent`:
 
