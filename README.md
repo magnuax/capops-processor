@@ -1,6 +1,6 @@
 # capops-processor
 
-A real-time **Capacity Operations** monitoring system for air traffic control. It processes flight tracking data and weather information to monitor airspace capacity across geographic sectors, detect risk events, and publish live data via Redis.
+A real-time **Capacity Operations** monitoring system for air traffic control. It processes flight tracking data and weather information to monitor airspace capacity across geographic sectors, detect risk events, and publish live data to API-backend via Redis.
 
 ## Features
 
