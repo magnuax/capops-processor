@@ -64,14 +64,6 @@ The processor reads `configuration.cfg` from the working directory on startup.
 
 Tests use Catch2 and cover configuration loading, grid computation, domain entities, the data processing pipeline, proto mapping, simulators, risk event detection, and Redis publishing.
 
-## Docker
-
-```bash
-docker build -t capops-processor .
-docker run --rm --network capops-network capops-processor
-```
-
-The image is based on Ubuntu 24.04 and performs a full in-container build. The CI/CD pipeline automatically pushes `jacobg431/processor:latest` to DockerHub on commits to `main`.
 
 ## Configuration
 
