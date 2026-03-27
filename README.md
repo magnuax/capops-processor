@@ -15,7 +15,7 @@ A real-time **Capacity Operations** monitoring system for air traffic control. I
 ```
 Track Source ──→ IngestService ──→ ComputeData ──→ ProtoMapper ──→ RedisPublisher
                                        ↑
-Weather Source ─→ IngestService ────────┘
+Weather Source ─→ IngestService ───────┘
 ```
 
 Each iteration of the main loop:
